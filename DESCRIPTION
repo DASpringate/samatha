@@ -1,5 +1,5 @@
 Package: samatha
-Maintainer: daspringate@gmail.com
+Maintainer: Who to complain to <daspringate@gmail.com>
 Author: David Springate
 Version: 1.0
 License: GPL-3
@@ -10,3 +10,4 @@ Suggests:
     roxygen2
 Collate:
     'samatha.R'
+    'samatha-package.r'
