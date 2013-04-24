@@ -1,0 +1,12 @@
+Package: samatha
+Maintainer: daspringate@gmail.com
+Author: David Springate
+Version: 1.0
+License: GPL-3
+Title: Samatha-package.R
+Description: A package for rendering HTML in R
+Suggests:
+    testthat,
+    roxygen2
+Collate:
+    'samatha.R'
