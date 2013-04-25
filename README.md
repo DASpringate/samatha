@@ -27,16 +27,18 @@ load_all(".")  # In the correct directory!
 
 ## Documentation
 
-Documentation is not yet available but will be on daspringate.github.com
+I'm working on it!
+
+* Wiki
+* API docs
 
 ## Syntax
 
-The central function is html:
+##### The central function is html:
 
 
 ```r
-# The first argument is the html tag:
-html("p")
+html("p") # The first argument is the html tag:
 ```
 
 ```
@@ -44,8 +46,7 @@ html("p")
 ```
 
 ```r
-# Any strings after that are concatenated to be the content of the tag:
-html("p", "This is a Sentence.", " So is this")
+html("p", "This is a Sentence.", " So is this") # Any strings after form the content of the tag:
 ```
 
 ```
@@ -53,8 +54,7 @@ html("p", "This is a Sentence.", " So is this")
 ```
 
 ```r
-# The opts argument defines html tag attributes
-html("span", "bar", opts = list(class = "foo"))
+html("span",  "bar", opts = list(class = "foo")) # The opts list defines html tag attributes
 ```
 
 ```
@@ -62,7 +62,7 @@ html("span", "bar", opts = list(class = "foo"))
 ```
 
 ```r
-html("span", opts = list(id = "foo", class = "bar"), "baz")
+html("span", opts = list(id = "foo", class = "bar"), "baz") 
 ```
 
 ```
@@ -70,8 +70,10 @@ html("span", opts = list(id = "foo", class = "bar"), "baz")
 ```
 
 ```r
-# Tags can be nested inside of tags and everything ends up concatenated
-html("p", "Goodbye", html("strong", "cruel"), "world")
+html("p", 
+     "Goodbye", 
+     html("strong", "cruel"), 
+     "world")# Tags can be nested inside of other tags
 ```
 
 ```
@@ -79,8 +81,7 @@ html("p", "Goodbye", html("strong", "cruel"), "world")
 ```
 
 ```r
-# There are CSS-style shortcuts for setting ID and class
-html("p#my-p", html("span.pretty", "hey"))
+html("p#my-p", html("span.pretty", "hey")) # CSS-style shortcuts for ID and class
 ```
 
 ```
@@ -88,8 +89,7 @@ html("p#my-p", html("span.pretty", "hey"))
 ```
 
 ```r
-# You can escape a tag using the (escape-html) function
-html("p", html("script", "Do something evil", escape.html.p = TRUE))
+html("p", html("script", "Do something evil", escape.html.p = TRUE)) # Escape a tag using escape.html.p = TRUE
 ```
 
 ```
@@ -97,7 +97,7 @@ html("p", html("script", "Do something evil", escape.html.p = TRUE))
 ```
 
 
-There are also wrappers to generate a range of common html elements...
+##### There are also wrappers to generate a range of common html elements...
 
 
 ```r
@@ -169,7 +169,7 @@ image.link("www.beautifulthings.com/12538675", opts = list(alt = "A lovely pictu
 ```
 
 
-... and functions to include css and js...
+##### ...and functions to include css and js...
 
 
 ```r
@@ -189,7 +189,7 @@ include.js(c("script1.js", "script2.js", "script3.js"))
 ```
 
 
-Still to be implemented:
+##### Still to be implemented:
 
 * Functions for form elements
 * Doctype boilerplate
