@@ -1,7 +1,5 @@
 \name{include.css}
 \alias{include.css}
-\title{Samatha pages
-Functions for wrapping html in doctype boilerplate}
 \usage{
   include.css(stylesheets)
 }

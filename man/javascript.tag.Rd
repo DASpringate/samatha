@@ -8,4 +8,7 @@
   Wraps the script string in script tags and a CDATA
   section
 }
+\examples{
+javascript.tag("Some javascript")
+}
 

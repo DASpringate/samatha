@@ -2,6 +2,51 @@
 #' Functions for wrapping html in doctype boilerplate
 #' 
 
+#' @name doctype
+#' @description List of document type declarations for html and xml
+doctypes <- list(html4 = list(paste("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\"",
+                              "\"http://www.w3.org/TR/html4/strict.dtd\">"), 
+                             list(tag = "html", opts = list())),
+                xhtml.strict = list(paste("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"",
+                                     "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">"), 
+                                    list(tag = "html", opts = list())),
+                xhtml.transitional = list(paste("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"",
+                                           "\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">"), 
+                                          list(tag = "html", opts =  list())),
+                html5 =  list("<!DOCTYPE html>", list(tag = "html", opts = list())))
+
+#' @name head
+#' @description Build an html header
+#' @examples
+#' head("My first page")
+head <- function(title, ..., opts = list()){
+    html("head", ..., opts = c(list(title = title), opts))
+}
+
+#' @name body
+#' @description Build an html body
+#' @examples
+#' body("Hello world!")
+body <- function(..., opts = list()){
+    html("body", ..., opts = opts)
+}
+
+
+#' @name webdoc
+#' @description Build a web document with the appropriate doctype
+#' examples
+#' webdoc("html5",
+#' head("My first page"),
+#' body("Hello world"),
+#' unordered.list(elements))
+
+webdoc <- function(doctype, ...){
+    content <- html(doctypes[[doctype]][[2]]$tag, paste0(..., collapse = ""), 
+                    opts = doctypes[[2]]$opts)
+    outdoc <- sprintf("%s%s", doctypes[[doctype]][[1]], content)
+    structure(outdoc, class="samatha.webdoc")
+    outdoc
+}
 
 #' @name include.css
 #' @description Include a list of external stylesheet files

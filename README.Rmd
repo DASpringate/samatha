@@ -58,6 +58,8 @@ elements = list("apples", "oranges", "bananas")
 unordered.list(elements)
 ordered.list(elements) # Ordered list
 image.link("www.beautifulthings.com/12538675", opts = list(alt = "A lovely picture of something")) # link to an image
+head("My first page")
+body("Hello world!")
 ```
 
 ##### ...and functions to include css and js...
@@ -67,10 +69,20 @@ cat(include.css(c("mysheeet.css", "sheet2.css", "sheet3.css")))
 cat(include.js(c("script1.js", "script2.js", "script3.js")))
 ```
 
+##### Full pages with doctypes and outer html tags can be generated with the webdoc function
+
+```{r, tidy=FALSE}
+webdoc("html5",
+       head("My first page"),
+       body("Hello world"),
+       unordered.list(elements))
+```
+
+
 ##### Still to be implemented:
 
 * Functions for form elements
-* Doctype boilerplate
+* Pretty printing
 
 
 

@@ -168,6 +168,22 @@ image.link("www.beautifulthings.com/12538675", opts = list(alt = "A lovely pictu
 ## [1] "<img  src=\"www.beautifulthings.com/12538675\" alt=\"A lovely picture of something\" />"
 ```
 
+```r
+head("My first page")
+```
+
+```
+## [1] "<head  title=\"My first page\" />"
+```
+
+```r
+body("Hello world!")
+```
+
+```
+## [1] "<body>Hello world!</body>"
+```
+
 
 ##### ...and functions to include css and js...
 
@@ -193,10 +209,26 @@ cat(include.js(c("script1.js", "script2.js", "script3.js")))
 ```
 
 
+##### Full pages with doctypes and outer html tags can be generated with the webdoc function
+
+
+```r
+webdoc("html5",
+       head("My first page"),
+       body("Hello world"),
+       unordered.list(elements))
+```
+
+```
+## [1] "<!DOCTYPE html><html><head  title=\"My first page\" /><body>Hello world</body><ul><li>apples</li><li>oranges</li><li>bananas</li></ul></html>"
+```
+
+
+
 ##### Still to be implemented:
 
 * Functions for form elements
-* Doctype boilerplate
+* Pretty printing
 
 
 

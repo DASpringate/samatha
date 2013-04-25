@@ -1,5 +1,8 @@
 #' Functions for creating HTML elements. These are all wrappers around the html function
-#' 
+#'
+
+
+
 #' @name javascript.tag
 #' @description Wraps the script string in script tags and a CDATA section
 #' @examples

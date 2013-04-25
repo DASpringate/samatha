@@ -34,6 +34,7 @@ html <- function(tag, ..., opts = list(), specials = list(id = "#", class = "\\.
         } else sprintf("<%s%s>%s</%s>", tag, render.opts(opts), content, tag)   
     }
 }
+
 render.opts <- function(opts){
     if(length(opts)){
         paste(lapply(1:length(opts), function(x) sprintf(" %s=\"%s\"", names(opts)[x], opts[[x]])),
@@ -52,4 +53,7 @@ escape.html <- function(s){
     }
     s
 }
+
+
+
 
