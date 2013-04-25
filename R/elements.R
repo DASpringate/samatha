@@ -2,12 +2,16 @@
 #' 
 #' @name javascript.tag
 #' @description Wraps the script string in script tags and a CDATA section
+#' @examples
+#' javascript.tag("Some javascript")
 javascript.tag <- function(script){
     html("script", "//<![CDATA[\n", script, "\n//]]>")
 }
 
 #' @name link.to
 #' @description Wraps content in an HTML hyperlink with the supplied URL
+#' @examples
+#' link.to("www.google.com", "Google")
 link.to <- function(url, ..., opts = list()){
     html("a", ..., opts = c(opts, list(href = url)))
 }
