@@ -8,6 +8,8 @@ Description: A package for rendering HTML in R
 Suggests:
     testthat,
     roxygen2
+Depends:
+    stringr
 Collate:
     'samatha.R'
     'samatha-package.r'
