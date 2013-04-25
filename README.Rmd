@@ -63,8 +63,8 @@ image.link("www.beautifulthings.com/12538675", opts = list(alt = "A lovely pictu
 ##### ...and functions to include css and js...
 
 ```{r}
-include.css(c("mysheeet.css", "sheet2.css", "sheet3.css"))
-include.js(c("script1.js", "script2.js", "script3.js"))
+cat(include.css(c("mysheeet.css", "sheet2.css", "sheet3.css")))
+cat(include.js(c("script1.js", "script2.js", "script3.js")))
 ```
 
 ##### Still to be implemented:
