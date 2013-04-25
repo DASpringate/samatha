@@ -2,17 +2,21 @@ Samatha
 =======
 
 #### Copyright David Sprigate 2013 ([CC BY 3.0](creativecommons.org/licenses/by/3.0))
+##### @datajujitsu
 
 Samatha is a package for rendering HTML in R. It is based on the [Hiccup](http://github.com/weavejester/hiccup) library for [Clojure](clojure.org).
 
-Samatha can render html and generic xml to R strings.  The functions are designed to be nested inside one another.
+Samatha can render html and generic xml to R strings.  The functions can be nested inside one another and are designed to be combined to easily build valid html in R.
+
+This project is in the very early stages of development! Feel free to contact me with any bugs/suggestions
 
 ## Install
 
-Samatha is not currently in a state to be built with devtools
+You should be able to install the current version of Samatha with devtools:
 
 ```{r}
-load_all(".")
+require(devtools)
+load_all(".") # In the correct directory!
 ```
 
 ## Documentation
