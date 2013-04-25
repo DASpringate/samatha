@@ -1,0 +1,12 @@
+\name{image.link}
+\alias{image.link}
+\usage{
+  image.link(uri, opts = list())
+}
+\description{
+  Builds an image element
+}
+\examples{
+image.link("www.beautifulthings.com/12538675", opts = list(alt = "A lovely picture of something"))
+}
+

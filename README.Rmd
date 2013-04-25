@@ -1,0 +1,79 @@
+Samatha
+=======
+
+#### Copyright David Sprigate 2013 ([CC BY 3.0](creativecommons.org/licenses/by/3.0))
+##### @datajujitsu
+
+Samatha is a package for rendering HTML in R. It is based on the [Hiccup](http://github.com/weavejester/hiccup) library for [Clojure](clojure.org).
+
+Samatha can render html and generic xml to R strings.  The functions can be nested inside one another and are designed to be combined to easily build valid html in R.
+
+This project is in the very early stages of development! Feel free to contact me with any bugs/suggestions
+
+## Install
+
+You should be able to install the current version of Samatha with devtools:
+
+```{r}
+require(devtools)
+load_all(".") # In the correct directory!
+```
+
+## Documentation
+
+I'm working on it!
+
+* Wiki
+* API docs
+
+## Syntax
+
+##### The central function is html:
+
+```{r, tidy=FALSE}
+html("p") # The first argument is the html tag:
+html("p", "This is a Sentence.", " So is this") # Any strings after form the content of the tag:
+html("span",  "bar", opts = list(class = "foo")) # The opts list defines html tag attributes
+html("span", opts = list(id = "foo", class = "bar"), "baz") 
+html("p", 
+     "Goodbye", 
+     html("strong", "cruel"), 
+     "world")# Tags can be nested inside of other tags
+html("p#my-p", html("span.pretty", "hey")) # CSS-style shortcuts for ID and class
+html("p", html("script", "Do something evil", escape.html.p = TRUE)) # Escape a tag using escape.html.p = TRUE
+```
+
+##### There are also wrappers to generate a range of common html elements...
+
+```{r}
+javascript.tag("Some javascript") # To wrap the script string in script tags and a CDATA section
+link.to("www.google.com", "Google") # To wrap content in an HTML hyperlink with the supplied URL
+# To wrap content in html hyperlink with the supplied email address.  
+# If no content provided the email address is supplied as content:
+mail.to("me@me.com")
+mail.to("me@me.com", "email me")
+mail.to("me@me.com", "email me", subject = "you are great")
+# To wrap a list of strings into an unordered list:
+elements = list("apples", "oranges", "bananas")
+unordered.list(elements)
+ordered.list(elements) # Ordered list
+image.link("www.beautifulthings.com/12538675", opts = list(alt = "A lovely picture of something")) # link to an image
+```
+
+##### ...and functions to include css and js...
+
+```{r}
+cat(include.css(c("mysheeet.css", "sheet2.css", "sheet3.css")))
+cat(include.js(c("script1.js", "script2.js", "script3.js")))
+```
+
+##### Still to be implemented:
+
+* Functions for form elements
+* Doctype boilerplate
+
+
+
+
+
+
