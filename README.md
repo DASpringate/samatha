@@ -215,12 +215,12 @@ cat(include.js(c("script1.js", "script2.js", "script3.js")))
 ```r
 webdoc("html5",
        head("My first page"),
-       body("Hello world"),
-       unordered.list(elements))
+       body("Hello world",
+            unordered.list(elements)))
 ```
 
 ```
-## [1] "<!DOCTYPE html><html><head  title=\"My first page\" /><body>Hello world</body><ul><li>apples</li><li>oranges</li><li>bananas</li></ul></html>"
+## [1] "<!DOCTYPE html><html><head  title=\"My first page\" /><body>Hello world<ul><li>apples</li><li>oranges</li><li>bananas</li></ul></body></html>"
 ```
 
 
