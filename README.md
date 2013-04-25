@@ -173,19 +173,23 @@ image.link("www.beautifulthings.com/12538675", opts = list(alt = "A lovely pictu
 
 
 ```r
-include.css(c("mysheeet.css", "sheet2.css", "sheet3.css"))
+cat(include.css(c("mysheeet.css", "sheet2.css", "sheet3.css")))
 ```
 
 ```
-## [1] "<link  type=\"text/css\" href=\"mysheeet.css\" rel=\"stylesheet\" />\n<link  type=\"text/css\" href=\"sheet2.css\" rel=\"stylesheet\" />\n<link  type=\"text/css\" href=\"sheet3.css\" rel=\"stylesheet\" />"
+## <link  type="text/css" href="mysheeet.css" rel="stylesheet" />
+## <link  type="text/css" href="sheet2.css" rel="stylesheet" />
+## <link  type="text/css" href="sheet3.css" rel="stylesheet" />
 ```
 
 ```r
-include.js(c("script1.js", "script2.js", "script3.js"))
+cat(include.js(c("script1.js", "script2.js", "script3.js")))
 ```
 
 ```
-## [1] "<script  type=\"text/javascript\" src=\"script1.js\" />\n<script  type=\"text/javascript\" src=\"script2.js\" />\n<script  type=\"text/javascript\" src=\"script3.js\" />"
+## <script  type="text/javascript" src="script1.js" />
+## <script  type="text/javascript" src="script2.js" />
+## <script  type="text/javascript" src="script3.js" />
 ```
 
 
