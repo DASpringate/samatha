@@ -14,3 +14,5 @@ Collate:
     'samatha-package.r'
     'elements.R'
     'html.R'
+    'pages.R'
+    'forms.R'
