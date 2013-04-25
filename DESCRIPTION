@@ -11,5 +11,6 @@ Suggests:
 Depends:
     stringr
 Collate:
-    'samatha.R'
     'samatha-package.r'
+    'elements.R'
+    'html.R'

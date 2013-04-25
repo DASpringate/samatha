@@ -26,8 +26,8 @@ html <- function(tag, ..., opts = list(), specials = list(id = "#", class = "\\.
         }
     }
     content <- paste0(..., collapse = "")
-    if(!length(opts) & !nchar(content)){
-        sprintf("<%s />", tag)
+    if(!nchar(content)){
+        sprintf("<%s %s />", tag, render.opts(opts))
     } else {
         if(escape.html.p) {
             content <- escape.html(sprintf("<%s%s>%s</%s>", tag, render.opts(opts), content, tag))
