@@ -4,9 +4,11 @@ Samatha
 #### Copyright David Sprigate 2013 ([CC BY 3.0](creativecommons.org/licenses/by/3.0))
 ##### @datajujitsu
 
-Samatha is a package for rendering HTML in R. It is based on the [Hiccup](http://github.com/weavejester/hiccup) library for [Clojure](clojure.org).
+Samatha is an R package containing a simple DSL for rendering HTML and an engine for building static websites. 
 
-Samatha can render html and generic xml to R strings.  The functions can be nested inside one another and are designed to be combined to easily build valid html in R.
+The DSL is based on the [Hiccup](http://github.com/weavejester/hiccup) library for [Clojure](clojure.org).  You can use it to render html and generic xml.  The functions can be nested inside one another and are designed to be combined to easily build valid html in R.
+
+The Static site engine uses the Samatha DSL to build layout templates which it then combines with content for individual pages.  Pages can be written in .Rmd format, which is then converted to html using [knitr]() and then rendered within the layout for that page. When the engine is running, new .Rmd files are automatically converted to .html files.
 
 This project is in the very early stages of development! Feel free to contact me with any bugs/suggestions
 
