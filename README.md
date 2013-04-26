@@ -1,7 +1,7 @@
 Samatha
 =======
 
-#### Copyright David Sprigate 2013 ([CC BY 3.0](creativecommons.org/licenses/by/3.0))
+#### Copyright David Springate 2013 ([CC BY 3.0](creativecommons.org/licenses/by/3.0))
 ##### @datajujitsu
 
 Samatha is a package for rendering HTML in R. It is based on the [Hiccup](http://github.com/weavejester/hiccup) library for [Clojure](clojure.org).
@@ -17,11 +17,22 @@ You should be able to install the current version of Samatha with devtools:
 
 ```r
 require(devtools)
+```
+
+```
+## Loading required package: devtools
+```
+
+```r
 load_all(".")  # In the correct directory!
 ```
 
 ```
 ## Loading samatha
+```
+
+```
+## Loading required package: stringr
 ```
 
 
