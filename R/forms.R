@@ -7,7 +7,7 @@
 #' @examples
 #' input.field("fuzzy", "hello", 12)
 input.field <- function(type, name, value){
-    html("input", opts = list(type = type,
+    m("input", opts = list(type = type,
                               name = name,
                               value = value))
 }

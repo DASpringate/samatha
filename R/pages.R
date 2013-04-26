@@ -20,7 +20,7 @@ doctypes <- list(html4 = list(paste("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.
 #' @examples
 #' head("My first page")
 head <- function(title, ..., opts = list()){
-    html("head", ..., opts = c(list(title = title), opts))
+    m("head", ..., opts = c(list(title = title), opts))
 }
 
 #' @name body
@@ -28,7 +28,7 @@ head <- function(title, ..., opts = list()){
 #' @examples
 #' body("Hello world!")
 body <- function(..., opts = list()){
-    html("body", ..., opts = opts)
+    m("body", ..., opts = opts)
 }
 
 
@@ -41,7 +41,7 @@ body <- function(..., opts = list()){
 #' unordered.list(elements))
 
 webdoc <- function(doctype, ...){
-    content <- html(doctypes[[doctype]][[2]]$tag, paste0(..., collapse = ""), 
+    content <- m(doctypes[[doctype]][[2]]$tag, paste0(..., collapse = ""), 
                     opts = doctypes[[2]]$opts)
     outdoc <- sprintf("%s%s", doctypes[[doctype]][[1]], content)
     structure(outdoc, class="samatha.webdoc")
@@ -54,7 +54,7 @@ webdoc <- function(doctype, ...){
 #' include.css(c("mysheeet.css", "sheet2.css", "sheet3.css"))
 include.css <- function(stylesheets){
     paste0(lapply(stylesheets, 
-                  function(style) html("link", opts = list(type = "text/css",
+                  function(style) m("link", opts = list(type = "text/css",
                                                            href = style,
                                                            rel = "stylesheet"))),
            collapse = "\n")
@@ -66,7 +66,7 @@ include.css <- function(stylesheets){
 #' include.js(c("script1.js", "script2.js", "script3.js"))
 include.js <- function(scripts){
     paste0(lapply(scripts, 
-                  function(script) html("script", opts = list(type = "text/javascript",
+                  function(script) m("script", opts = list(type = "text/javascript",
                                                            src = script))),
            collapse = "\n")
 }

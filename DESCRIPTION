@@ -13,6 +13,6 @@ Depends:
 Collate:
     'samatha-package.r'
     'elements.R'
+    'forms.R'
     'html.R'
     'pages.R'
-    'forms.R'

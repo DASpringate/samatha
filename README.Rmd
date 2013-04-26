@@ -28,19 +28,19 @@ I'm working on it!
 
 ## Syntax
 
-##### The central function is html:
+##### The central function is `m() # for Markup`:
 
 ```{r, tidy=FALSE}
-html("p") # The first argument is the html tag:
-html("p", "This is a Sentence.", " So is this") # Any strings after form the content of the tag:
-html("span",  "bar", opts = list(class = "foo")) # The opts list defines html tag attributes
-html("span", opts = list(id = "foo", class = "bar"), "baz") 
-html("p", 
+m("p") # The first argument is the html tag:
+m("p", "This is a Sentence.", " So is this") # Any strings after form the content of the tag:
+m("span",  "bar", opts = list(class = "foo")) # The opts list defines html tag attributes
+m("span", opts = list(id = "foo", class = "bar"), "baz") 
+m("p", 
      "Goodbye", 
-     html("strong", "cruel"), 
+     m("strong", "cruel"), 
      "world")# Tags can be nested inside of other tags
-html("p#my-p", html("span.pretty", "hey")) # CSS-style shortcuts for ID and class
-html("p", html("script", "Do something evil", escape.html.p = TRUE)) # Escape a tag using escape.html.p = TRUE
+m("p#my-p", m("span.pretty", "hey")) # CSS-style shortcuts for ID and class
+m("p", m("script", "Do something evil", escape.html.p = TRUE)) # Escape a tag using escape.html.p = TRUE
 ```
 
 ##### There are also wrappers to generate a range of common html elements...

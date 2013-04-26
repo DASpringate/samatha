@@ -8,7 +8,7 @@
 #' @examples
 #' javascript.tag("Some javascript")
 javascript.tag <- function(script){
-    html("script", "//<![CDATA[\n", script, "\n//]]>")
+    m("script", "//<![CDATA[\n", script, "\n//]]>")
 }
 
 #' @name link.to
@@ -16,7 +16,7 @@ javascript.tag <- function(script){
 #' @examples
 #' link.to("www.google.com", "Google")
 link.to <- function(url, ..., opts = list()){
-    html("a", ..., opts = c(opts, list(href = url)))
+    m("a", ..., opts = c(opts, list(href = url)))
 }
 
 #' @name mail.to
@@ -30,13 +30,13 @@ mail.to <- function(email, ..., subject = "", opts = list()){
     content <- paste0(..., collapse = "")
     if(nchar(content)){
         if(nchar(subject)){
-            html("a", ..., opts = c(list(href = paste0("mailto:", 
+            m("a", ..., opts = c(list(href = paste0("mailto:", 
                                                        email,"?Subject=",
                                                        str_replace_all(subject,"[[:space:]]", "%20" ))), 
                                     opts))
-        } else html("a", ..., opts = c(list(href = paste0("mailto:",  email)), 
+        } else m("a", ..., opts = c(list(href = paste0("mailto:",  email)), 
                                        opts))
-    } else html("a", email, opts = c(list(href = paste0("mailto:",  email)), 
+    } else m("a", email, opts = c(list(href = paste0("mailto:",  email)), 
                                      opts))
 }
 
@@ -46,7 +46,7 @@ mail.to <- function(email, ..., subject = "", opts = list()){
 #' elements = list("apples", "oranges", "bananas")
 #' unordered.list(elements)
 unordered.list <- function(elements, opts = list(), element.opts = list()){
-    html("ul", lapply(elements, function(x) html("li", x, opts = element.opts)), opts)
+    m("ul", lapply(elements, function(x) m("li", x, opts = element.opts)), opts)
 }
 
 #' @name ordered.list
@@ -55,13 +55,13 @@ unordered.list <- function(elements, opts = list(), element.opts = list()){
 #' elements = list("apples", "oranges", "bananas")
 #' ordered.list(elements)
 ordered.list <- function(elements, opts = list(), element.opts = list()){
-    html("ol", lapply(elements, function(x) html("li", x, opts = element.opts)), opts)
+    m("ol", lapply(elements, function(x) m("li", x, opts = element.opts)), opts)
 }
 
 #' @name image.link
 #' @description Builds an image element
 #' @examples image.link("www.beautifulthings.com/12538675", opts = list(alt = "A lovely picture of something"))
 image.link <- function(uri, opts = list()){
-    html("img", opts = c(list(src = uri), opts))
+    m("img", opts = c(list(src = uri), opts))
 }
 

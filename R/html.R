@@ -2,22 +2,22 @@ require(stringr)
 
 #' samatha
 #'
-#' @name html
-#' @description Render arguments to a string of HTML.
+#' @name m
+#' @description Render arguments to a string of markup (HTML but also generic XML)
 #' @examples
-#' html("p")
+#' m("p")
 #' # Any strings after that become the content of the tag
-#' html("p", "This is a paragraph")
+#' m("p", "This is a paragraph")
 #' # Tags can be nested inside of tags and everything ends up concatenated
-#' html("p", "Goodbye", html("strong", "cruel"), "world")
+#' m("p", "Goodbye", m("strong", "cruel"), "world")
 #' # You can specify attributes by supplying a list after the content
-#' html("span",  "bar", opts = list(class = "foo"))
+#' m("span",  "bar", opts = list(class = "foo"))
 #' #' There are CSS-style shortcuts for setting ID and class
-#' html("p#my-p", html("span.pretty", "hey"))
-#' html("span", opts = list(id = "foo", class = "bar"), "baz")
+#' m("p#my-p", m("span.pretty", "hey"))
+#' m("span", opts = list(id = "foo", class = "bar"), "baz")
 #' # You can escape a string using the (escape-html) function
-#' html("p", html("script", "Do something evil", escape.htmp.p = TRUE))
-html <- function(tag, ..., opts = list(), specials = list(id = "#", class = "\\."), escape.html.p = FALSE){
+#' m("p", m("script", "Do something evil", escape.html.p = TRUE))
+m <- function(tag, ..., opts = list(), specials = list(id = "#", class = "\\."), escape.html.p = FALSE){
     for(i in 1:length(specials)){
         tag <- str_split(tag, specials[[i]], 2)[[1]]
         if(length(tag) > 1){
@@ -30,7 +30,7 @@ html <- function(tag, ..., opts = list(), specials = list(id = "#", class = "\\.
         sprintf("<%s %s />", tag, render.opts(opts))
     } else {
         if(escape.html.p) {
-            content <- escape.html(sprintf("<%s%s>%s</%s>", tag, render.opts(opts), content, tag))
+            content <- escape.m(sprintf("<%s%s>%s</%s>", tag, render.opts(opts), content, tag))
         } else sprintf("<%s%s>%s</%s>", tag, render.opts(opts), content, tag)   
     }
 }

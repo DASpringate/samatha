@@ -34,11 +34,11 @@ I'm working on it!
 
 ## Syntax
 
-##### The central function is html:
+##### The central function is `m() # for Markup`:
 
 
 ```r
-html("p") # The first argument is the html tag:
+m("p") # The first argument is the html tag:
 ```
 
 ```
@@ -46,7 +46,7 @@ html("p") # The first argument is the html tag:
 ```
 
 ```r
-html("p", "This is a Sentence.", " So is this") # Any strings after form the content of the tag:
+m("p", "This is a Sentence.", " So is this") # Any strings after form the content of the tag:
 ```
 
 ```
@@ -54,7 +54,7 @@ html("p", "This is a Sentence.", " So is this") # Any strings after form the con
 ```
 
 ```r
-html("span",  "bar", opts = list(class = "foo")) # The opts list defines html tag attributes
+m("span",  "bar", opts = list(class = "foo")) # The opts list defines html tag attributes
 ```
 
 ```
@@ -62,7 +62,7 @@ html("span",  "bar", opts = list(class = "foo")) # The opts list defines html ta
 ```
 
 ```r
-html("span", opts = list(id = "foo", class = "bar"), "baz") 
+m("span", opts = list(id = "foo", class = "bar"), "baz") 
 ```
 
 ```
@@ -70,9 +70,9 @@ html("span", opts = list(id = "foo", class = "bar"), "baz")
 ```
 
 ```r
-html("p", 
+m("p", 
      "Goodbye", 
-     html("strong", "cruel"), 
+     m("strong", "cruel"), 
      "world")# Tags can be nested inside of other tags
 ```
 
@@ -81,7 +81,7 @@ html("p",
 ```
 
 ```r
-html("p#my-p", html("span.pretty", "hey")) # CSS-style shortcuts for ID and class
+m("p#my-p", m("span.pretty", "hey")) # CSS-style shortcuts for ID and class
 ```
 
 ```
@@ -89,11 +89,11 @@ html("p#my-p", html("span.pretty", "hey")) # CSS-style shortcuts for ID and clas
 ```
 
 ```r
-html("p", html("script", "Do something evil", escape.html.p = TRUE)) # Escape a tag using escape.html.p = TRUE
+m("p", m("script", "Do something evil", escape.html.p = TRUE)) # Escape a tag using escape.html.p = TRUE
 ```
 
 ```
-## [1] "<p>&lt;script&gt;Do something evil&lt;/script&gt;</p>"
+## Error: could not find function "escape.m"
 ```
 
 
