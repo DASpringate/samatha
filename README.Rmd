@@ -1,7 +1,7 @@
 Samatha
 =======
 
-#### Copyright David Sprigate 2013 ([CC BY 3.0](creativecommons.org/licenses/by/3.0))
+#### Copyright David Springate 2013 ([CC BY 3.0](creativecommons.org/licenses/by/3.0))
 ##### @datajujitsu
 
 Samatha is an R package containing a simple DSL for rendering HTML and an engine for building static websites. 

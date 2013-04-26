@@ -25,7 +25,7 @@ create.site.structure <- function(site){
 }
 
 #' @name render.pages
-#' @description Reads .R scripts in
+#' @description Renders a page according to its layout template
 render.page <- function(site, pagename, subdir = ""){
     source(file.path(site, "template/pages", pagename), local = TRUE)
     cat(source(file.path(site, "template/layouts", layout))$value, 
