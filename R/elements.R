@@ -65,3 +65,11 @@ image.link <- function(uri, opts = list()){
     m("img", opts = c(list(src = uri), opts))
 }
 
+#' @name content
+#' @description Seqentially concatenates strings separated by newlines
+content <- function(...){
+    paste0(..., sep = "\n", collapse = "\n")
+}
+
+
+# need meta tags : just opening and closing <>, no <\meta>
