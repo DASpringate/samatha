@@ -4,6 +4,6 @@
   content(...)
 }
 \description{
-  Seqentially concatenates strings seperated by newlines
+  Seqentially concatenates strings separated by newlines
 }
 
