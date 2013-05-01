@@ -9,7 +9,9 @@ Suggests:
     testthat,
     roxygen2
 Depends:
-    stringr
+    stringr,
+    knitr,
+    markdown
 Collate:
     'samatha-package.r'
     'elements.R'

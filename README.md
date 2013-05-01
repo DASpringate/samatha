@@ -8,7 +8,7 @@ Samatha is an R package containing a simple DSL for rendering HTML and an engine
 
 The DSL is based on the [Hiccup](http://github.com/weavejester/hiccup) library for [Clojure](clojure.org).  You can use it to render html and generic xml.  The functions can be nested inside one another and are designed to be combined to easily build valid html in R.
 
-The Static site engine uses the Samatha DSL to build layout templates which it then combines with content for individual pages.  Pages can be written in .Rmd format, which is then converted to html using [knitr]() and then rendered within the layout for that page. When the engine is running, new .Rmd files are automatically converted to .html files.
+The Static site engine uses the Samatha DSL to build layout templates which it then combines with content for individual pages.  Pages can be written in .Rmd format, which is then converted to md using [knitr]() and then to html using [markdown](). Pages are then rendered within the layout for that page. When the engine is running, new .Rmd files are automatically converted to .html files.
 
 This project is in the very early stages of development! Feel free to contact me with any bugs/suggestions
 
@@ -19,22 +19,11 @@ You should be able to install the current version of Samatha with devtools:
 
 ```r
 require(devtools)
-```
-
-```
-## Loading required package: devtools
-```
-
-```r
 load_all(".")  # In the correct directory!
 ```
 
 ```
 ## Loading samatha
-```
-
-```
-## Loading required package: stringr
 ```
 
 
@@ -45,7 +34,7 @@ I'm working on it!
 * Wiki
 * API docs
 
-## Syntax
+## The HTML DSL
 
 ##### The central function is `m() # for Markup`:
 
@@ -243,8 +232,61 @@ webdoc("html5",
 * Functions for form elements
 * Pretty printing
 
+## The static site generator
+
+##### To setup the directories for a new site:
+
+
+```r
+site <- "testsite"
+create.site.structure(site)
+```
+
+
+##### To render pages and posts
+
+Pages can be build using the html dsl
+
+```r
+render.page(site, "testpage.R")
+render.post(site, postname, layout = "default.R")
+```
+
+```
+## 
+## 
+## processing file: testsite//template/posts/2013_05_01_The_first_post.Rmd
+```
+
+```
+##   |                                                                         |                                                                 |   0%  |                                                                         |>>>>>>>>>>>>>                                                    |  20%
+##   ordinary text without R code
+## 
+##   |                                                                         |>>>>>>>>>>>>>>>>>>>>>>>>>>                                       |  40%
+## label: unnamed-chunk-8
+##   |                                                                         |>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>                          |  60%
+##   ordinary text without R code
+## 
+##   |                                                                         |>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>             |  80%
+## label: unnamed-chunk-9 (with options) 
+## List of 2
+##  $ fig.width : num 7
+##  $ fig.height: num 6
+```
+
+```
+##   |                                                                         |>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>| 100%
+##   ordinary text without R code
+```
+
+```
+## output file:
+## /home/mdehsds4/github/samatha/testsite/template/posts/2013_05_01_The_first_post.md
+```
+
+![plot of chunk unnamed-chunk-7](img/unnamed-chunk-7.png) 
 
 
 
-
+To do: write up the Samatha template system
 
