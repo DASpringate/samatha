@@ -98,7 +98,7 @@ create.site.structure(site)
 ##### To render pages and posts
 
 Pages can be build using the html dsl
-```{r}
+```{r, eval = FALSE}
 render.page(site, "testpage.R")
 render.post(site, postname, layout = "default.R")
 ```

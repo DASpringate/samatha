@@ -252,40 +252,6 @@ render.page(site, "testpage.R")
 render.post(site, postname, layout = "default.R")
 ```
 
-```
-## 
-## 
-## processing file: testsite//template/posts/2013_05_01_The_first_post.Rmd
-```
-
-```
-##   |                                                                         |                                                                 |   0%  |                                                                         |>>>>>>>>>>>>>                                                    |  20%
-##   ordinary text without R code
-## 
-##   |                                                                         |>>>>>>>>>>>>>>>>>>>>>>>>>>                                       |  40%
-## label: unnamed-chunk-8
-##   |                                                                         |>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>                          |  60%
-##   ordinary text without R code
-## 
-##   |                                                                         |>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>             |  80%
-## label: unnamed-chunk-9 (with options) 
-## List of 2
-##  $ fig.width : num 7
-##  $ fig.height: num 6
-```
-
-```
-##   |                                                                         |>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>| 100%
-##   ordinary text without R code
-```
-
-```
-## output file:
-## /home/mdehsds4/github/samatha/testsite/template/posts/2013_05_01_The_first_post.md
-```
-
-![plot of chunk unnamed-chunk-7](img/unnamed-chunk-7.png) 
-
 
 
 To do: write up the Samatha template system
