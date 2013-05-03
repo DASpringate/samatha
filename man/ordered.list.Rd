@@ -1,5 +1,6 @@
 \name{ordered.list}
 \alias{ordered.list}
+\title{ordered list representaion}
 \usage{
   ordered.list(elements, opts = list(),
     element.opts = list())

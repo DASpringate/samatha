@@ -1,5 +1,6 @@
 \name{include.js}
 \alias{include.js}
+\title{js include represntation}
 \usage{
   include.js(scripts)
 }

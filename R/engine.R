@@ -1,7 +1,4 @@
-#' An engine for building static sites in R
-#' 
-
-
+#' Start a new site 
 #' @name create.site.structure
 #' @description Sets up the directory structure for a new static site
 #' @param site path to the directory you want to set up
@@ -24,6 +21,7 @@ create.site.structure <- function(site){
     }
 }
 
+#' Render a page using the Samatha html dsl
 #' @name render.page
 #' @description Renders a page according to its layout template
 #' pages are stored in site/template/pages
@@ -36,6 +34,7 @@ render.page <- function(site, pagename, subdir = ""){
                                 str_replace(pagename, "\\.R", "\\.html")))
 } 
 
+#' Render a post from an R markdown file
 #' @name render.post
 #' @description Render an .Rmd file into a page according to its layout template
 #' post templates are stored in site/template
@@ -58,6 +57,18 @@ render.post <- function(site, postname, layout = "default.R", fig.path = "img"){
         file = file.path(month.dir, 
                          str_replace(postnames[3], "\\.Rmd", "\\.html")))   
 }
+
+#' Index the pages of a site
+#' @name index.site
+#' @description makes an .RData file of all of the compiled pages in the site with modification dates
+index.site <- function(site){
+    static.files <- list.files(file.path(site, basename(site)), recursive = TRUE)
+    index <- lapply(static.files,
+                    function(x) file.info(file.path(site,basename(site), x))$mtime)
+    names(index) <- static.files
+    save(index, file = file.path(site, "template/index.RData"))
+}
+
 # site <- "testsite"
 # create.site.structure(site)
 # render.page(site, "testpage.R")

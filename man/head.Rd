@@ -1,5 +1,6 @@
 \name{head}
 \alias{head}
+\title{Wraps input in head tags}
 \usage{
   head(title, ..., opts = list())
 }

@@ -2,6 +2,7 @@
 #' Functions for wrapping html in doctype boilerplate
 #' 
 
+#' html doctype header represntation
 #' @name doctype
 #' @description List of document type declarations for html and xml
 doctypes <- list(html4 = list(paste("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\"",
@@ -15,6 +16,7 @@ doctypes <- list(html4 = list(paste("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.
                                           list(tag = "html", opts =  list())),
                 html5 =  list("<!DOCTYPE html>", list(tag = "html", opts = list())))
 
+#' Wraps input in head tags
 #' @name head
 #' @description Build an html header
 #' @examples
@@ -23,6 +25,7 @@ head <- function(title, ..., opts = list()){
     m("head", ..., opts = c(list(title = title), opts))
 }
 
+#' Wraps input in body tags
 #' @name body
 #' @description Build an html body
 #' @examples
@@ -31,7 +34,7 @@ body <- function(..., opts = list()){
     m("body", ..., opts = opts)
 }
 
-
+#' Representation of a webpage in R
 #' @name webdoc
 #' @description Build a web document with the appropriate doctype
 #' examples
@@ -40,7 +43,6 @@ body <- function(..., opts = list()){
 #' head("My first page"),
 #' body("Hello world"),
 #' unordered.list(elements))
-
 webdoc <- function(doctype, ...){
     content <- m(doctypes[[doctype]][[2]]$tag, paste0(..., collapse = ""), 
                     opts = doctypes[[2]]$opts)
@@ -49,6 +51,7 @@ webdoc <- function(doctype, ...){
     outdoc
 }
 
+#' CSS include representation
 #' @name include.css
 #' @description Include a list of external stylesheet files
 #' @examples 
@@ -61,6 +64,7 @@ include.css <- function(stylesheets){
            collapse = "\n")
 }
 
+#' js include represntation
 #' @name include.js
 #' @description Include a list of external javascript files
 #' @examples 

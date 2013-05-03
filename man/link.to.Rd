@@ -1,5 +1,6 @@
 \name{link.to}
 \alias{link.to}
+\title{link tag representaion}
 \usage{
   link.to(url, ..., opts = list())
 }

@@ -1,5 +1,6 @@
 \name{mail.to}
 \alias{mail.to}
+\title{mail to tag representaion}
 \usage{
   mail.to(email, ..., subject = "", opts = list())
 }

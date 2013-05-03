@@ -1,5 +1,6 @@
 \name{body}
 \alias{body}
+\title{Wraps input in body tags}
 \usage{
   body(..., opts = list())
 }

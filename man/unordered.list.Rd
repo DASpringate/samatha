@@ -1,5 +1,6 @@
 \name{unordered.list}
 \alias{unordered.list}
+\title{unordered list representaion}
 \usage{
   unordered.list(elements, opts = list(),
     element.opts = list())

@@ -29,5 +29,5 @@
                           link.to("#", "&uArr; Page Top")),
                         m("p",
                           link.to("http://twitter.com/datajujitsu", "@datajujitsu"),
-                          "&nbsp; 2012")))))))
+                          "&nbsp; 2013")))))))
 })(page)

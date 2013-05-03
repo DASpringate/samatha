@@ -1,5 +1,6 @@
 \name{webdoc}
 \alias{webdoc}
+\title{Representation of a webpage in R}
 \usage{
   webdoc(doctype, ...)
 }

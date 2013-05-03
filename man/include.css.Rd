@@ -1,5 +1,6 @@
 \name{include.css}
 \alias{include.css}
+\title{CSS include representation}
 \usage{
   include.css(stylesheets)
 }

@@ -2,7 +2,7 @@
 #'
 
 
-
+#' javascript tag representaion
 #' @name javascript.tag
 #' @description Wraps the script string in script tags and a CDATA section
 #' @examples
@@ -11,6 +11,7 @@ javascript.tag <- function(script){
     m("script", "//<![CDATA[\n", script, "\n//]]>")
 }
 
+#' link tag representaion
 #' @name link.to
 #' @description Wraps content in an HTML hyperlink with the supplied URL
 #' @examples
@@ -19,6 +20,7 @@ link.to <- function(url, ..., opts = list()){
     m("a", ..., opts = c(opts, list(href = url)))
 }
 
+#' mail to tag representaion
 #' @name mail.to
 #' @description {Wraps content in html hyperlink with the supplied email address.  
 #' If no content provided the email address is supplied as content}
@@ -40,6 +42,7 @@ mail.to <- function(email, ..., subject = "", opts = list()){
                                      opts))
 }
 
+#' unordered list representaion
 #' @name unordered.list
 #' @description Wraps a list of strings into an unordered list
 #' @examples
@@ -49,6 +52,7 @@ unordered.list <- function(elements, opts = list(), element.opts = list()){
     m("ul", lapply(elements, function(x) m("li", x, opts = element.opts)), opts)
 }
 
+#' ordered list representaion
 #' @name ordered.list
 #' @description Wraps a list of strings into an ordered list
 #' @examples
@@ -58,6 +62,7 @@ ordered.list <- function(elements, opts = list(), element.opts = list()){
     m("ol", lapply(elements, function(x) m("li", x, opts = element.opts)), opts)
 }
 
+#' image tag representaion
 #' @name image.link
 #' @description Builds an image element
 #' @examples image.link("www.beautifulthings.com/12538675", opts = list(alt = "A lovely picture of something"))
@@ -65,6 +70,7 @@ image.link <- function(uri, opts = list()){
     m("img", opts = c(list(src = uri), opts))
 }
 
+#' concatenates html tags
 #' @name content
 #' @description Seqentially concatenates strings separated by newlines
 content <- function(...){

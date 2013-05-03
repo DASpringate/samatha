@@ -14,5 +14,8 @@ Functions for wrapping html in doctype boilerplate}
 \description{
   List of document type declarations for html and xml
 }
+\details{
+  html doctype header represntation
+}
 \keyword{datasets}
 

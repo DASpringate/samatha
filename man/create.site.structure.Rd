@@ -1,6 +1,6 @@
 \name{create.site.structure}
 \alias{create.site.structure}
-\title{An engine for building static sites in R}
+\title{Start a new site}
 \usage{
   create.site.structure(site)
 }

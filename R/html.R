@@ -1,7 +1,4 @@
-require(stringr)
-
-#' samatha
-#'
+#' Generic representaion of an HTML tag in R
 #' @name m
 #' @description Render arguments to a string of markup (HTML but also generic XML)
 #' @examples
@@ -35,6 +32,9 @@ m <- function(tag, ..., opts = list(), specials = list(id = "#", class = "\\."),
     }
 }
 
+#' Render html attributes
+#' @name render.opts
+#' @description Helper function to render optional attributes for an html tag in m()
 render.opts <- function(opts){
     if(length(opts)){
         paste(lapply(1:length(opts), function(x) sprintf(" %s=\"%s\"", names(opts)[x], opts[[x]])),
@@ -43,6 +43,9 @@ render.opts <- function(opts){
     
 }
 
+#' Escapes html tags
+#' @name escape.html
+#' @description Escapes html by converting &,<,> and quotes
 escape.html <- function(s){
     escapes <- list("&" = "&amp;",
                     "<" = "&lt;",

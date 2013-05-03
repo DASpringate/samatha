@@ -1,6 +1,6 @@
 \name{m}
 \alias{m}
-\title{samatha}
+\title{Generic representaion of an HTML tag in R}
 \usage{
   m(tag, ..., opts = list(),
     specials = list(id = "#", class = "\\."),

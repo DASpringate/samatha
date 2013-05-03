@@ -1,5 +1,6 @@
 \name{image.link}
 \alias{image.link}
+\title{image tag representaion}
 \usage{
   image.link(uri, opts = list())
 }
