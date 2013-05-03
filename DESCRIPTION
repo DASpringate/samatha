@@ -1,7 +1,7 @@
 Package: samatha
 Maintainer: Who to complain to <daspringate@gmail.com>
 Author: David Springate
-Version: 1.0
+Version: 0.2
 License: GPL-3
 Title: Samatha-package.R
 Description: A package for rendering HTML in R
@@ -11,7 +11,8 @@ Suggests:
 Depends:
     stringr,
     knitr,
-    markdown
+    markdown,
+    Rook
 Collate:
     'samatha-package.r'
     'elements.R'
