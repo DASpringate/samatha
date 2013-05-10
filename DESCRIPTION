@@ -1,18 +1,22 @@
 Package: samatha
 Maintainer: Who to complain to <daspringate@gmail.com>
 Author: David Springate
-Version: 1.0
+Version: 0.2
 License: GPL-3
 Title: Samatha-package.R
-Description: A package for rendering HTML in R
+Description: A package for building static sites and rendering HTML in R
 Suggests:
-    testthat,
     roxygen2
 Depends:
-    stringr
+    stringr,
+    knitr,
+    markdown,
+    testthat,
+    Rook
 Collate:
     'samatha-package.r'
     'elements.R'
+    'forms.R'
     'html.R'
     'pages.R'
-    'forms.R'
+    'engine.R'

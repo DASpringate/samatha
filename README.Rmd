@@ -1,0 +1,121 @@
+Samatha
+=======
+
+#### Copyright David Springate 2013 ([CC BY 3.0](creativecommons.org/licenses/by/3.0))
+##### @datajujitsu
+
+Samatha is an R package containing a simple DSL for rendering HTML and an engine for building static websites. 
+
+The DSL is based on the [Hiccup](http://github.com/weavejester/hiccup) library for [Clojure](clojure.org).  You can use it to render html and generic xml.  The functions can be nested inside one another and are designed to be combined to easily build valid html in R.
+
+The Static site engine uses the Samatha DSL to build layout templates which it then combines with content for individual pages.  Pages can be written in .Rmd format, which is then converted to md using [knitr]() and then to html using [markdown](). Pages are then rendered within the layout for that page. 
+
+When the engine is running, all Samatha pages are recompiled and any new .Rmd posts are automatically converted to .html files.
+
+
+This project is in the very early stages of development! Feel free to contact me with any bugs/suggestions
+
+## Install
+
+You should be able to install the current version of Samatha with devtools:
+
+```{r}
+require(devtools)
+load_all(".") # In the correct directory!
+```
+
+## Documentation
+
+I'm working on it!
+
+* Wiki
+* API docs
+
+## The HTML DSL
+
+##### The central function is `m() # for Markup`:
+
+```{r, tidy=FALSE}
+m("p") # The first argument is the html tag:
+m("p", "This is a Sentence.", " So is this") # Any strings after form the content of the tag:
+m("span",  "bar", opts = list(class = "foo")) # The opts list defines html tag attributes
+m("span", opts = list(id = "foo", class = "bar"), "baz") 
+m("p", 
+     "Goodbye", 
+     m("strong", "cruel"), 
+     "world")# Tags can be nested inside of other tags
+m("p#my-p", m("span.pretty", "hey")) # CSS-style shortcuts for ID and class
+m("p", m("script", "Do something evil", escape.html.p = TRUE)) # Escape a tag using escape.html.p = TRUE
+```
+
+##### There are also wrappers to generate a range of common html elements...
+
+```{r}
+javascript.tag("Some javascript") # To wrap the script string in script tags and a CDATA section
+link.to("www.google.com", "Google") # To wrap content in an HTML hyperlink with the supplied URL
+# To wrap content in html hyperlink with the supplied email address.  
+# If no content provided the email address is supplied as content:
+mail.to("me@me.com")
+mail.to("me@me.com", "email me")
+mail.to("me@me.com", "email me", subject = "you are great")
+# To wrap a list of strings into an unordered list:
+elements = list("apples", "oranges", "bananas")
+unordered.list(elements)
+ordered.list(elements) # Ordered list
+image.link("www.beautifulthings.com/12538675", opts = list(alt = "A lovely picture of something")) # link to an image
+head("My first page")
+body("Hello world!")
+```
+
+##### ...and functions to include css and js...
+
+```{r}
+cat(include.css(c("mysheeet.css", "sheet2.css", "sheet3.css")))
+cat(include.js(c("script1.js", "script2.js", "script3.js")))
+```
+
+##### Full pages with doctypes and outer html tags can be generated with the webdoc function
+
+```{r, tidy=FALSE}
+webdoc("html5",
+       head("My first page"),
+       body("Hello world",
+            unordered.list(elements)))
+```
+
+
+##### Still to be implemented:
+
+* Functions for form elements
+* Pretty printing
+
+## The static site generator
+
+##### To setup the directories for a new site:
+
+```{r, eval = FALSE}
+site <- "testsite"
+create.site.structure(site)
+```
+
+##### To render pages and posts
+
+Pages can be build using the html dsl
+```{r, eval = FALSE}
+render.page(site, "testpage.R")
+render.post(site, postname, layout = "default.R")
+```
+
+##### To test your site in a development server
+
+Currently I am using python to serve the files, but am working on an R development server based on Rook
+
+To run the dev server (assuming you have Python installed):
+
+```
+cd path/to/mysite/mysite
+python path/to/samatha/src/server.py
+```
+Then open your browser and point it to `http://localhost:8000/`
+
+
