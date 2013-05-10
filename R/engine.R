@@ -10,7 +10,7 @@ create.site.structure <- function(site){
             dir.create(file.path(site, basename(site), d), 
                        showWarnings = FALSE, recursive = TRUE)
         }
-        for(d in c("layouts", "posts", "pages")){
+        for(d in c("layouts", "posts", "pages/pages", "markdown")){
             dir.create(file.path(site, "template", d), 
                        showWarnings = FALSE, recursive = TRUE)
     }
@@ -27,12 +27,11 @@ create.site.structure <- function(site){
 #' @description Renders a page according to its layout template
 #' pages are stored in site/template/pages
 #' @export
-render.page <- function(site, pagename, subdir = ""){
+render.page <- function(site, pagename){
     source(file.path(site, "template/pages", pagename), local = TRUE)
     cat(source(file.path(site, "template/layouts", layout), local = TRUE)$value, 
                file = file.path(site, 
                                 basename(site), 
-                                subdir, 
                                 str_replace(pagename, "\\.R", "\\.html")))
 } 
 
@@ -89,5 +88,19 @@ index.site <- function(site){
 # improve the figure folder stuff (change the base figure file to be inside the template then change the paths to the figure file in the md docs)
 # Update pages in real time while the server is running
 
+#' Watches the site directory for changes and recompiles html appropriately
+#' @name samatha.engine
+samatha.engine <- function(site, post.layout = "default.R", figure.path = "img"){
+    posts <- list.files(file.path(site, "template/posts"))
+    pages <- list.files(file.path(site, "template/pages"), recursive = TRUE)
+    for(post in posts[str_detect(posts, "Rmd$")]) {
+        render.post(site, post, layout = post.layout, fig.path = figure.path)
+    }
+    for(page in pages[str_detect(pages, "R$")]) {
+        render.page(site, page)
+    }
+}
 
+
+site.watcher <- function()
 
