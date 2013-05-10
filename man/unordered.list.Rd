@@ -2,7 +2,7 @@
 \alias{unordered.list}
 \title{unordered list representaion}
 \usage{
-  unordered.list(elements, opts = list(),
+  unordered.list(elements, list.opts = list(),
     element.opts = list())
 }
 \description{

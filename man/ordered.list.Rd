@@ -2,7 +2,7 @@
 \alias{ordered.list}
 \title{ordered list representaion}
 \usage{
-  ordered.list(elements, opts = list(),
+  ordered.list(elements, list.opts = list(),
     element.opts = list())
 }
 \description{

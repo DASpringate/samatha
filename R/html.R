@@ -1,9 +1,17 @@
+#' A vector of elements that need an explicit endin tag
+#' @name container_tags
+container_tags <- c("a", "article", "aside", "b", "body", "canvas", "dd", "div", "dl", "dt", "em", "fieldset",
+                    "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "head", "header", "hgroup", "html",
+                    "i", "iframe", "label", "li", "nav", "ol", "option", "pre", "section", "script", "span",
+                    "strong", "style", "table", "textarea", "title", "ul")
+
 #' Generic representaion of an HTML tag in R
 #' @name m
 #' @description Render arguments to a string of markup (HTML but also generic XML)
 #' @export
 #' @examples
 #' m("p")
+#' m("div")
 #' # Any strings after that become the content of the tag
 #' m("p", "This is a paragraph")
 #' # Tags can be nested inside of tags and everything ends up concatenated
@@ -25,7 +33,9 @@ m <- function(tag, ..., opts = list(), specials = list(id = "#", class = "\\."),
     }
     content <- paste0(..., collapse = "")
     if(!nchar(content)){
-        sprintf("<%s %s />", tag, render.opts(opts))
+        ifelse(tag %in% container_tags, 
+               sprintf("<%s%s></%s>", tag, render.opts(opts), tag),
+               sprintf("<%s%s />", tag, render.opts(opts)))
     } else {
         if(escape.html.p) {
             content <- escape.html(sprintf("<%s%s>%s</%s>", tag, render.opts(opts), content, tag))

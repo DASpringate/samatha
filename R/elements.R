@@ -52,8 +52,8 @@ mail.to <- function(email, ..., subject = "", opts = list()){
 #' @examples
 #' elements = list("apples", "oranges", "bananas")
 #' unordered.list(elements)
-unordered.list <- function(elements, opts = list(), element.opts = list()){
-    m("ul", lapply(elements, function(x) m("li", x, opts = element.opts)), opts)
+unordered.list <- function(elements, list.opts = list(), element.opts = list()){
+    m("ul", lapply(elements, function(x) m("li", x, opts = element.opts)), opts = list.opts)
 }
 
 #' ordered list representaion
@@ -63,8 +63,8 @@ unordered.list <- function(elements, opts = list(), element.opts = list()){
 #' @examples
 #' elements = list("apples", "oranges", "bananas")
 #' ordered.list(elements)
-ordered.list <- function(elements, opts = list(), element.opts = list()){
-    m("ol", lapply(elements, function(x) m("li", x, opts = element.opts)), opts)
+ordered.list <- function(elements, list.opts = list(), element.opts = list()){
+    m("ol", lapply(elements, function(x) m("li", x, opts = element.opts)), opts = list.opts)
 }
 
 #' image tag representaion

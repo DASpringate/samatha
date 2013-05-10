@@ -12,6 +12,7 @@
 }
 \examples{
 m("p")
+m("div")
 # Any strings after that become the content of the tag
 m("p", "This is a paragraph")
 # Tags can be nested inside of tags and everything ends up concatenated
