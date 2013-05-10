@@ -17,43 +17,44 @@ doctypes <- list(html4 = list(paste("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.
                 html5 =  list("<!DOCTYPE html>", list(tag = "html", opts = list())))
 
 #' Wraps input in head tags
-#' @name head
+#' @name html_head
 #' @description Build an html header
+#' @export
 #' @examples
-#' head("My first page")
-head <- function(title, ..., opts = list()){
+#' html_head("My first page")
+html_head <- function(title, ..., opts = list()){
     m("head", ..., opts = c(list(title = title), opts))
 }
 
 #' Wraps input in body tags
-#' @name body
+#' @name html_body
 #' @description Build an html body
-#' @examples
-#' body("Hello world!")
-body <- function(..., opts = list()){
+#' @export
+#' @examples 
+#' html_body("Hello world!")
+html_body <- function(..., opts = list()){
     m("body", ..., opts = opts)
 }
 
 #' Representation of a webpage in R
 #' @name webdoc
 #' @description Build a web document with the appropriate doctype
-#' examples
+#' @export
+#' @examples
 #' elements = list("apples", "oranges", "bananas")
-#' webdoc("html5",
-#' head("My first page"),
-#' body("Hello world"),
-#' unordered.list(elements))
+#' webdoc("html5",html_head("My first page"),html_body("Hello world"), unordered.list(elements))
 webdoc <- function(doctype, ...){
     content <- m(doctypes[[doctype]][[2]]$tag, paste0(..., collapse = ""), 
                     opts = doctypes[[2]]$opts)
     outdoc <- sprintf("%s%s", doctypes[[doctype]][[1]], content)
-    structure(outdoc, class="samatha.webdoc")
+    structure(outdoc, class="Samatha.Webdoc")
     outdoc
 }
 
 #' CSS include representation
 #' @name include.css
 #' @description Include a list of external stylesheet files
+#' @export
 #' @examples 
 #' include.css(c("mysheeet.css", "sheet2.css", "sheet3.css"))
 include.css <- function(stylesheets){
@@ -67,6 +68,7 @@ include.css <- function(stylesheets){
 #' js include represntation
 #' @name include.js
 #' @description Include a list of external javascript files
+#' @export
 #' @examples 
 #' include.js(c("script1.js", "script2.js", "script3.js"))
 include.js <- function(scripts){

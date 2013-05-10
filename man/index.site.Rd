@@ -1,6 +1,6 @@
 \name{index.site}
 \alias{index.site}
-\title{Index the pages of a site}
+\title{Index the pages of a site REPLACE WITH WATCH FROM TESTTHAT}
 \usage{
   index.site(site)
 }

@@ -1,13 +1,13 @@
-\name{body}
-\alias{body}
+\name{html_body}
+\alias{html_body}
 \title{Wraps input in body tags}
 \usage{
-  body(..., opts = list())
+  html_body(..., opts = list())
 }
 \description{
   Build an html body
 }
 \examples{
-body("Hello world!")
+html_body("Hello world!")
 }
 

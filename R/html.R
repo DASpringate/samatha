@@ -1,6 +1,7 @@
 #' Generic representaion of an HTML tag in R
 #' @name m
 #' @description Render arguments to a string of markup (HTML but also generic XML)
+#' @export
 #' @examples
 #' m("p")
 #' # Any strings after that become the content of the tag
@@ -27,7 +28,7 @@ m <- function(tag, ..., opts = list(), specials = list(id = "#", class = "\\."),
         sprintf("<%s %s />", tag, render.opts(opts))
     } else {
         if(escape.html.p) {
-            content <- escape.m(sprintf("<%s%s>%s</%s>", tag, render.opts(opts), content, tag))
+            content <- escape.html(sprintf("<%s%s>%s</%s>", tag, render.opts(opts), content, tag))
         } else sprintf("<%s%s>%s</%s>", tag, render.opts(opts), content, tag)   
     }
 }
@@ -46,6 +47,7 @@ render.opts <- function(opts){
 #' Escapes html tags
 #' @name escape.html
 #' @description Escapes html by converting &,<,> and quotes
+#' @export
 escape.html <- function(s){
     escapes <- list("&" = "&amp;",
                     "<" = "&lt;",

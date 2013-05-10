@@ -2,6 +2,7 @@
 #' @name create.site.structure
 #' @description Sets up the directory structure for a new static site
 #' @param site path to the directory you want to set up
+#' @export
 create.site.structure <- function(site){
     new.site.p <- dir.create(site, showWarnings = FALSE)
     if(new.site.p){
@@ -21,10 +22,11 @@ create.site.structure <- function(site){
     }
 }
 
-#' Render a page using the Samatha html dsl
+#' @title Render a page using the Samatha html dsl
 #' @name render.page
 #' @description Renders a page according to its layout template
 #' pages are stored in site/template/pages
+#' @export
 render.page <- function(site, pagename, subdir = ""){
     source(file.path(site, "template/pages", pagename), local = TRUE)
     cat(source(file.path(site, "template/layouts", layout), local = TRUE)$value, 
@@ -40,6 +42,7 @@ render.page <- function(site, pagename, subdir = ""){
 #' post templates are stored in site/template
 #' Need to eventually fix the file copy of figures to take into account changes in files
 #' Better date functionality
+#' @export
 render.post <- function(site, postname, layout = "default.R", fig.path = "img"){
     postnames <- str_match(postname, pattern = "([[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2})_(.*)")
     if(length(postnames) != 3 | ! str_detect(postnames[3], "\\.Rmd")) stop(sprintf("Bad post filename: %s", postnames[1]))
@@ -58,9 +61,10 @@ render.post <- function(site, postname, layout = "default.R", fig.path = "img"){
                          str_replace(postnames[3], "\\.Rmd", "\\.html")))   
 }
 
-#' Index the pages of a site
+#' Index the pages of a site REPLACE WITH WATCH FROM TESTTHAT
 #' @name index.site
 #' @description makes an .RData file of all of the compiled pages in the site with modification dates
+#' @export
 index.site <- function(site){
     static.files <- list.files(file.path(site, basename(site)), recursive = TRUE)
     index <- lapply(static.files,

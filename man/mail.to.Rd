@@ -10,6 +10,8 @@
   supplied as content}
 }
 \examples{
-#mail.to("me
+#mail.to("me.at.me.com")
+#mail.to("me.at.me.com", "email me")
+#mail.to("me.at.me.com", "email me", subject = "you are great")
 }
 

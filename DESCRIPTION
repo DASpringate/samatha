@@ -4,14 +4,14 @@ Author: David Springate
 Version: 0.2
 License: GPL-3
 Title: Samatha-package.R
-Description: A package for rendering HTML in R
+Description: A package for building static sites and rendering HTML in R
 Suggests:
-    testthat,
     roxygen2
 Depends:
     stringr,
     knitr,
     markdown,
+    testthat,
     Rook
 Collate:
     'samatha-package.r'
