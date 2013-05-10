@@ -264,7 +264,7 @@ To run the dev server (assuming you have Python installed):
 
 ```
 cd path/to/mysite/mysite
-
+python path/to/samatha/src/server.py
 ```
 Then open your browser and point it to `http://localhost:8000/`
 
