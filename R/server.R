@@ -1,11 +1,12 @@
 #' Samatha static site development server
-#' 
+#' Not currently working 
 
 require(Rook)
 
 s <- Rhttpd$new()
 #s$start(quiet=TRUE)
 s$start("localhost:8080")
+
 
 ## End(Not run)
 s$add(name="Samatha",
