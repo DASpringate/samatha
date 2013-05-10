@@ -16,3 +16,16 @@ test_that("Generic html function works",{
     expect_equal(m("p", m("script", "Do something evil", escape.html.p = TRUE)), "<p>&lt;script&gt;Do something evil&lt;/script&gt;</p>")
 })
 
+test_that("html element wrappers work",{
+    expect_equal(javascript.tag("Some javascript"), "<script>//<![CDATA[\nSome javascript\n//]]></script>")
+    expect_equal(link.to("www.google.com", "Google"), "<a href=\"www.google.com\">Google</a>")
+    expect_equal(mail.to("me@me.com"), "<a href=\"mailto:me@me.com\">me@me.com</a>")
+    expect_equal(mail.to("me@me.com", "email me"), "<a href=\"mailto:me@me.com\">email me</a>")
+    expect_equal(mail.to("me@me.com", "email me", subject = "you are great"), 
+                 "<a href=\"mailto:me@me.com?Subject=you%20are%20great\">email me</a>")
+    elements = list("apples", "oranges", "bananas")
+    expect_equal(unordered.list(elements), "<ul><li>apples</li><li>oranges</li><li>bananas</li></ul>")
+    expect_equal(ordered.list(elements), "<ol><li>apples</li><li>oranges</li><li>bananas</li></ol>")
+    expect_equal(image.link("www.beautifulthings.com/12538675", opts = list(alt = "A lovely picture of something")), 
+                 "<img  src=\"www.beautifulthings.com/12538675\" alt=\"A lovely picture of something\" />")
+})
