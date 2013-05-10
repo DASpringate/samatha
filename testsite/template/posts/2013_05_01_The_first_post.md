@@ -18,7 +18,7 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 plot(cars)
 ```
 
-![plot of chunk unnamed-chunk-9](img/unnamed-chunk-9.png) 
+![plot of chunk unnamed-chunk-2](testsite/testsite/img/unnamed-chunk-2.png) 
 
 
 1. Finish this

@@ -43,16 +43,20 @@ render.page <- function(site, pagename, subdir = ""){
 #' Need to eventually fix the file copy of figures to take into account changes in files
 #' Better date functionality
 #' @export
+# render.post("testsite", "2013_05_01_The_first_post.Rmd")
 render.post <- function(site, postname, layout = "default.R", fig.path = "img"){
     postnames <- str_match(postname, pattern = "([[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2})_(.*)")
     if(length(postnames) != 3 | ! str_detect(postnames[3], "\\.Rmd")) stop(sprintf("Bad post filename: %s", postnames[1]))
-    opts_chunk$set(fig.path = "img/")
+    opts_chunk$set(fig.path = file.path(site, basename(site), paste0(fig.path, "/")))
     knit(input = file.path(site, "template/posts", postnames[1]),
          output = file.path(site, "template/posts", str_replace(postnames[1], "\\.Rmd", "\\.md")))
-    for(f in list.files("img")) file.copy(file.path("img", f), file.path(site, basename(site), "img", f), overwrite = FALSE)
+    #for(f in list.files("img")) file.copy(file.path("img", f), file.path(site, basename(site), "img", f), overwrite = FALSE)
     page <- markdownToHTML(file.path(site, "template/posts", str_replace(postnames[1], "\\.Rmd", "\\.md")),
                                    fragment.only = TRUE)
     page <- paste0(page, m("h6", sprintf("Posted on %s", as.Date(postnames[2], format("%Y_%m_%d")))))
+    page <- str_replace_all(page, 
+                            paste0("img src=\"",file.path(site, basename(site), fig.path)), 
+                            paste0("img src=\"/", fig.path))
     month.dir <- file.path(site, basename(site), "posts", 
                           str_extract(postnames[2], "[[:digit:]]{4}_[[:digit:]]{2}"))
     dir.create(month.dir, showWarnings = FALSE)

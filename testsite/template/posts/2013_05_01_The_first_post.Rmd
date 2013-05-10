@@ -7,7 +7,7 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 1:10
 ```
 
-```{r fig.width=7, fig.height=6}
+```{r}
 plot(cars)
 ```
 
