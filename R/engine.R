@@ -93,6 +93,7 @@ index.site <- function(site){
 #' Watches the site directory for changes and recompiles html appropriately
 #' @name samatha.engine
 samatha.engine <- function(site, post.layout = "default.R", figure.path = "img"){
+    cat("Running Samatha static site engine.\n")
     posts <- list.files(file.path(site, "template/posts"))
     pages <- list.files(file.path(site, "template/pages"), recursive = TRUE)
     for(post in posts[str_detect(posts, "Rmd$")]) {
@@ -108,6 +109,20 @@ samatha.engine <- function(site, post.layout = "default.R", figure.path = "img")
 site.watcher <- function(added, deleted, modified){
     changed <- c(added, modified)
     changed <- changed[str_detect(changed, "\\.R(md)?$")]
+    deleted <- deleted[str_detect(changed, "\\.R(md)?$")]
+    if(length(deleted)){
+        cat("Flushing posts and pages directories of html files...\n")
+        unlink(file.path(site, basename(site), "posts/*.html"), recursive = TRUE)
+        unlink(file.path(site, basename(site), "pages/*.html"), recursive = FALSE)
+        unlink(file.path(site, basename(site), "*.html"), recursive = FALSE)
+        cat("changed:", changed, "\n")
+        for(post in changed[str_detect(changed, "posts/.+\\.Rmd$")]) {
+            render.post(site, basename(post), layout = post.layout, fig.path = figure.path)
+        }
+        for(page in changed[str_detect(changed, "pages/.+R$")]) {
+            render.page(site, page)
+        }
+    }
     if(length(changed)){
         cat("changed:", changed, "\n")
         for(post in changed[str_detect(changed, "posts/.+\\.Rmd$")]) {
@@ -116,7 +131,6 @@ site.watcher <- function(added, deleted, modified){
         for(page in changed[str_detect(changed, "pages/.+R$")]) {
             render.page(site, page)
         }
-        
     }
     TRUE
 }
