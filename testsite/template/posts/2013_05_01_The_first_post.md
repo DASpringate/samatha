@@ -1,5 +1,10 @@
+% R static-sites Samatha
+
 Building a static site generator in R
 ======================================
+
+test page
+---------
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring web pages (click the **MD** toolbar button for help on Markdown).
 
@@ -24,5 +29,9 @@ plot(cars)
 1. Finish this
 2. Do something else
 3. Relax
+4. Cry
+5. hidebh
+
+
 
 Fin

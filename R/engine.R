@@ -57,8 +57,10 @@ render.post <- function(site, postname, layout = "default.R", fig.path = "img"){
                             paste0("img src=\"",file.path(site, basename(site), fig.path)), 
                             paste0("img src=\"/", fig.path))
     month.dir <- file.path(site, basename(site), "posts", 
-                          str_extract(postnames[2], "[[:digit:]]{4}_[[:digit:]]{2}"))
-    dir.create(month.dir, showWarnings = FALSE)
+                          str_replace(str_extract(postnames[2], 
+                                                  "[[:digit:]]{4}_[[:digit:]]{2}"), 
+                                      "_", "/"))
+    dir.create(month.dir, showWarnings = FALSE, recursive = TRUE)
     cat(source(file.path(site, "template/layouts", layout), local = TRUE)$value, 
         file = file.path(month.dir, 
                          str_replace(postnames[3], "\\.Rmd", "\\.html")))   
@@ -99,8 +101,25 @@ samatha.engine <- function(site, post.layout = "default.R", figure.path = "img")
     for(page in pages[str_detect(pages, "R$")]) {
         render.page(site, page)
     }
+    samatha.watch(path = file.path(site, "template"), site.watcher)
 }
 
 
-site.watcher <- function()
+site.watcher <- function(added, deleted, modified){
+    changed <- c(added, modified)
+    changed <- changed[str_detect(changed, "\\.R(md)?$")]
+    if(length(changed)){
+        cat("changed:", changed, "\n")
+        for(post in changed[str_detect(changed, "posts/.+\\.Rmd$")]) {
+            render.post(site, basename(post), layout = post.layout, fig.path = figure.path)
+        }
+        for(page in changed[str_detect(changed, "pages/.+R$")]) {
+            render.page(site, page)
+        }
+        
+    }
+    TRUE
+}
+
+
 
