@@ -6,7 +6,7 @@
 create.site.structure <- function(site){
     new.site.p <- dir.create(site, showWarnings = FALSE)
     if(new.site.p){
-        for(d in c("posts", "pages", "css", "img", "js", "resources", "tag")){
+        for(d in c("posts", "pages", "css", "img", "js", "resources", "tags")){
             dir.create(file.path(site, basename(site), d), 
                        showWarnings = FALSE, recursive = TRUE)
         }
@@ -66,29 +66,6 @@ render.post <- function(site, postname, layout = "default.R", fig.path = "img"){
                          str_replace(postnames[3], "\\.Rmd", "\\.html")))   
 }
 
-#' Index the pages of a site REPLACE WITH WATCH FROM TESTTHAT
-#' @name index.site
-#' @description makes an .RData file of all of the compiled pages in the site with modification dates
-#' @export
-index.site <- function(site){
-    static.files <- list.files(file.path(site, basename(site)), recursive = TRUE)
-    index <- lapply(static.files,
-                    function(x) file.info(file.path(site,basename(site), x))$mtime)
-    names(index) <- static.files
-    save(index, file = file.path(site, "template/index.RData"))
-}
-
-# site <- "testsite"
-# create.site.structure(site)
-# render.page(site, "testpage.R")
-# render.post(site, postname, layout = "default.R")
-
-# to do:
-# Loop renderers for all files in posts and pages
-# record modification dates for posts/pages to control looping
-# set up local test server (Rook?)
-# improve the figure folder stuff (change the base figure file to be inside the template then change the paths to the figure file in the md docs)
-# Update pages in real time while the server is running
 
 #' Watches the site directory for changes and recompiles html appropriately
 #' @name samatha.engine

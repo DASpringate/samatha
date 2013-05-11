@@ -11,7 +11,8 @@ Suggests:
 Depends:
     stringr,
     knitr,
-    markdown
+    markdown,
+    RJSONIO
 Collate:
     'samatha-package.r'
     'elements.R'
@@ -20,3 +21,4 @@ Collate:
     'pages.R'
     'engine.R'
     'watcher.R'
+    'tags.R'
