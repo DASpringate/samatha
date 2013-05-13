@@ -81,6 +81,7 @@ samatha.engine <- function(site, post.layout = "default.R", figure.path = "img")
     }
     write.tags.to.file(site)
     render.tagfiles(site)
+    render.rss(site)
     samatha.watch(path = file.path(site, "template"), site.watcher)
 }
 
@@ -103,6 +104,7 @@ site.watcher <- function(added, deleted, modified){
         }
         write.tags.to.file(site)
         render.tagfiles(site)
+        render.rss(site)
     }
     if(length(changed)){
         cat("changed:", changed, "\n")
@@ -114,6 +116,7 @@ site.watcher <- function(added, deleted, modified){
         }
         write.tags.to.file(site)
         render.tagfiles(site)
+        render.rss(site)
     }
     TRUE
 }

@@ -16,6 +16,7 @@ doctypes <- list(html4 = list(paste("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.
                                           list(tag = "html", opts =  list())),
                 html5 =  list("<!DOCTYPE html>", list(tag = "html", opts = list())))
 
+
 #' Wraps input in head tags
 #' @name html_head
 #' @description Build an html header
@@ -50,6 +51,7 @@ webdoc <- function(doctype, ...){
     structure(outdoc, class="Samatha.Webdoc")
     outdoc
 }
+
 
 #' CSS include representation
 #' @name include.css
