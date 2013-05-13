@@ -79,6 +79,8 @@ samatha.engine <- function(site, post.layout = "default.R", figure.path = "img")
     for(page in pages[str_detect(pages, "R$")]) {
         render.page(site, page)
     }
+    write.tags.to.file(site)
+    render.tagfiles(site)
     samatha.watch(path = file.path(site, "template"), site.watcher)
 }
 
@@ -86,7 +88,7 @@ samatha.engine <- function(site, post.layout = "default.R", figure.path = "img")
 site.watcher <- function(added, deleted, modified){
     changed <- c(added, modified)
     changed <- changed[str_detect(changed, "\\.R(md)?$")]
-    deleted <- deleted[str_detect(changed, "\\.R(md)?$")]
+    deleted <- deleted[str_detect(deleted, "\\.R(md)?$")]
     if(length(deleted)){
         cat("Flushing posts and pages directories of html files...\n")
         unlink(file.path(site, basename(site), "posts/*.html"), recursive = TRUE)
@@ -99,6 +101,8 @@ site.watcher <- function(added, deleted, modified){
         for(page in changed[str_detect(changed, "pages/.+R$")]) {
             render.page(site, page)
         }
+        write.tags.to.file(site)
+        render.tagfiles(site)
     }
     if(length(changed)){
         cat("changed:", changed, "\n")
@@ -108,6 +112,8 @@ site.watcher <- function(added, deleted, modified){
         for(page in changed[str_detect(changed, "pages/.+R$")]) {
             render.page(site, page)
         }
+        write.tags.to.file(site)
+        render.tagfiles(site)
     }
     TRUE
 }
