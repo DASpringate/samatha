@@ -42,7 +42,7 @@ render.page <- function(site, pagename){
 #' Need to eventually fix the file copy of figures to take into account changes in files
 #' Better date functionality
 #' @export
-# render.post("testsite", "2013_05_01_The_first_post.Rmd")
+# render.post(site, "2013_05_01_The_first_post.Rmd")
 render.post <- function(site, postname, layout = "default.R", fig.path = "img"){
     postnames <- str_match(postname, pattern = "([[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2})_(.*)")
     if(length(postnames) != 3 | ! str_detect(postnames[3], "\\.Rmd")) stop(sprintf("Bad post filename: %s", postnames[1]))

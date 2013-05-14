@@ -1,7 +1,7 @@
 Package: samatha
 Maintainer: Who to complain to <daspringate@gmail.com>
 Author: David Springate
-Version: 0.2
+Version: 0.3
 License: GPL-3
 Title: Samatha-package.R
 Description: A package for building static sites and rendering HTML in R
@@ -14,7 +14,6 @@ Depends:
     markdown,
     RJSONIO
 Collate:
-    'samatha-package.r'
     'elements.R'
     'forms.R'
     'html.R'
@@ -23,3 +22,4 @@ Collate:
     'watcher.R'
     'tags.R'
     'rss.R'
+    'util.R'

@@ -1,6 +1,7 @@
 export(content)
 export(create.site.structure)
 export(escape.html)
+export(get.postpath)
 export(html.taglist)
 export(html_body)
 export(html_head)
