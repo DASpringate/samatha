@@ -6,13 +6,13 @@ License: GPL-3
 Title: Samatha-package.R
 Description: A package for building static sites and rendering HTML in R
 Suggests:
-    roxygen2
+    roxygen2,
+    testthat
 Depends:
     stringr,
     knitr,
     markdown,
-    testthat,
-    Rook
+    RJSONIO
 Collate:
     'samatha-package.r'
     'elements.R'
@@ -20,3 +20,6 @@ Collate:
     'html.R'
     'pages.R'
     'engine.R'
+    'watcher.R'
+    'tags.R'
+    'rss.R'

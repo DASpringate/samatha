@@ -1,7 +1,7 @@
-% R static-sites Samatha
+% R Python Samatha logistics Clojure
 
-Building a static site generator in R
-======================================
+Converting falafals from Python to R using Clojure
+==================================================
 
 test page
 ---------
