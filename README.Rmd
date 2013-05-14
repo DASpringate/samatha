@@ -4,22 +4,29 @@ Samatha
 #### Copyright David Springate 2013 ([CC BY 3.0](creativecommons.org/licenses/by/3.0))
 ##### @datajujitsu
 
-Samatha is an R package containing a simple DSL for rendering HTML and an engine for building static websites. 
+Samatha is an R package for quickly building _Github-ready_ static sites in R. It contains a simple, functional-style DSL for rendering HTML, an engine for real-time compilation of static websites as you build them and a development web-server for viewing your sites of line before you deploy. 
 
-The DSL is based on the [Hiccup](http://github.com/weavejester/hiccup) library for [Clojure](clojure.org).  You can use it to render html and generic xml.  The functions can be nested inside one another and are designed to be combined to easily build valid html in R.
+The Static site engine uses the Samatha DSL to build layout templates which it then combines with content to generate individual pages. 
+There are two ways to build pages:
 
-The Static site engine uses the Samatha DSL to build layout templates which it then combines with content for individual pages.  Pages can be written in .Rmd format, which is then converted to md using [knitr]() and then to html using [markdown](). Pages are then rendered within the layout for that page. 
+1. Pages are written entirely in the Samatha DSL and compiled with a layout file.
+2. Blog posts can be written in .Rmd format, which is then converted to md using [knitr]() and then to html using [markdown](). Posts are then rendered within the layout for that post. 
 
-When the engine is running, all Samatha pages are recompiled and any new .Rmd posts are automatically converted to .html files.
+When the engine is running:
 
+* All Samatha pages are recompiled to html when a page is changed
+* Any new or edited .Rmd posts are automatically converted to .html files.
+* Files of tags and their links to individual posts are auomatically generated
+* An RSS file is automatically generated and updated
 
-This project is in the very early stages of development! Feel free to contact me with any bugs/suggestions
+*This project is in the very early stages of development! Feel free to contact me with any bugs/suggestions*
 
 ## Install
 
 You should be able to install the current version of Samatha with devtools:
 
 ```{r}
+# check install_github()
 require(devtools)
 load_all(".") # In the correct directory!
 ```
@@ -31,7 +38,41 @@ I'm working on it!
 * Wiki
 * API docs
 
+## The static site generator
+
+##### To set up the directories for a new site:
+
+Before you start building pages , you need to build the directory structure of your site
+
+```{r, eval = FALSE}
+site <- "testsite"
+create.site.structure(site)
+```
+
+##### To render pages and posts
+
+Pages can be build using the html dsl
+```{r, eval = FALSE}
+render.page(site, "testpage.R")
+render.post(site, postname, layout = "default.R")
+```
+
+##### To test your site in a development server
+
+Currently I am using python to serve the files, but am working on an R development server based on Rook
+
+To run the dev server (assuming you have Python installed):
+
+```
+cd path/to/mysite/mysite
+python path/to/samatha/src/server.py
+```
+Then open your browser and point it to `http://localhost:8000/`
+
 ## The HTML DSL
+
+The DSL is based on the [Hiccup](http://github.com/weavejester/hiccup) library for [Clojure](clojure.org).  You can use it to render html and generic xml.  The functions can be nested inside one another and are designed to be combined to easily build valid html in R.
+
 
 ##### The central function is `m() # for Markup`:
 
@@ -89,33 +130,6 @@ webdoc("html5",
 * Functions for form elements
 * Pretty printing
 
-## The static site generator
 
-##### To setup the directories for a new site:
-
-```{r, eval = FALSE}
-site <- "testsite"
-create.site.structure(site)
-```
-
-##### To render pages and posts
-
-Pages can be build using the html dsl
-```{r, eval = FALSE}
-render.page(site, "testpage.R")
-render.post(site, postname, layout = "default.R")
-```
-
-##### To test your site in a development server
-
-Currently I am using python to serve the files, but am working on an R development server based on Rook
-
-To run the dev server (assuming you have Python installed):
-
-```
-cd path/to/mysite/mysite
-python path/to/samatha/src/server.py
-```
-Then open your browser and point it to `http://localhost:8000/`
 
 

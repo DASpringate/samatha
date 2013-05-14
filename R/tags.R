@@ -102,7 +102,7 @@ render.tagfiles <- function(site, tag.layout = "default.R"){
 #' returns a character string of an html formatted list of tags, 
 #' with numbers of posts associated with each and links to the tag pages
 #' This is a useful addition to an index page
-#' @name html taglist
+#' @name html.taglist
 #' @export
 html.taglist <- function(site){
     tagfile <- file.path(site, basename(site), "tags/tags.json")

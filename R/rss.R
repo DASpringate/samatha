@@ -19,6 +19,7 @@ rssdoc <- function(title, link, description, categories, rssitems){
 
 #' wraps the details of a post up as an rss item
 #' @name itemise.post
+#' @export
 itemise.post <- function(post){
     fname <- str_match(post, pattern = "([[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2})_(.*)")
     item.title <- extract.title(post)
