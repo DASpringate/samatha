@@ -39,7 +39,7 @@ collate.tags <- function(posts){
 #' @name write.tags.to.file
 write.tags.to.file <- function(site){
     tags <- collate.tags(file.path(site, "template/posts"))
-    cat(toJSON(tags), file = file.path(site, basename(site), "tags/tags.json"))
+    cat(toJSON(tags), file = file.path(site, "template/resources/json/tags.json"))
 }
 
 #' Generates page content for a tag, to be rendered with a layout
@@ -64,8 +64,8 @@ import.tagfile <- function(tagfile){
     
 #' Renders new html pages listing the associated posts for each tag
 #' @name render.tagfiles
-render.tagfiles <- function(site, tag.layout = "default.R"){
-    tagfile <- file.path(site, basename(site), "tags/tags.json")
+render.tagfiles <- function(site, tag.layout = "default_nocomments.R"){
+    tagfile <- file.path(site, "template/resources/json/tags.json")
     taglist <- import.tagfile(tagfile)
     if(!is.null(taglist)){
         for(tag in 1:length(taglist)){

@@ -57,7 +57,7 @@ include.markdown <- function(md.file){
 
 #' renders the contents of a markdown file as an html character vector
 #' A wrapper around readChar
-#' @name include.markdown
+#' @name include.textfile
 include.textfile <- function(text.file){
     readChar(text.file, nchars = file.info(text.file)$size)
 }
