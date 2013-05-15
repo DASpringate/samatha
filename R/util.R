@@ -47,3 +47,21 @@ html.postlist <- function(site){
         unordered.list(postlinks)
     }
 } 
+
+#' renders the contents of a markdown file as an html character vector
+#' A wrapper around markdown::markdownToHTML
+#' @name include.markdown
+include.markdown <- function(md.file){
+    markdownToHTML(file=md.file, fragment.only = TRUE)
+}
+
+#' renders the contents of a markdown file as an html character vector
+#' A wrapper around readChar
+#' @name include.markdown
+include.textfile <- function(text.file){
+    readChar(text.file, nchars = file.info(text.file)$size)
+}
+
+
+
+
