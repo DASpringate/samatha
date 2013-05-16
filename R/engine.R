@@ -10,7 +10,7 @@ create.site.structure <- function(site){
             dir.create(file.path(site, basename(site), d), 
                        showWarnings = FALSE, recursive = TRUE)
         }
-        for(d in c("layouts", "posts", "pages/pages", "resources/markdown", "resources/html")){
+        for(d in c("layouts", "posts", "pages/pages", "resources/markdown", "resources/html", "resources/json")){
             dir.create(file.path(site, "template", d), 
                        showWarnings = FALSE, recursive = TRUE)
     }
