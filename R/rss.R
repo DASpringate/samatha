@@ -20,13 +20,15 @@ rssdoc <- function(title, link, description, categories, rssitems){
 #' wraps the details of a post up as an rss item
 #' @name itemise.post
 #' @export
-itemise.post <- function(post){
+itemise.post <- function(post, domain){
     fname <- str_match(post, pattern = "([[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2})_(.*)")
     item.title <- extract.title(post)
-    item.content <- escape.html(markdownToHTML(post,
-                           fragment.only = TRUE))
+    item.content <- markdownToHTML(post,
+                           fragment.only = TRUE)
+    item.content <- str_replace_all(item.content, 'src=\"/', sprintf('src=\"%s/', domain))
+    item.content <- escape.html(item.content)
     item.categories <- extract.tags(post)
-    item.link <- file.path("/posts", 
+    item.link <- file.path(domain, "posts", 
               str_replace(str_extract(fname[2],
                                       "[[:digit:]]{4}_[[:digit:]]{2}"), 
                           "_", "/"),
@@ -41,11 +43,14 @@ itemise.post <- function(post){
 
 #' Builds an rss file with all posts in the site
 #' @name render.rss
-render.rss <- function(site){
+render.rss <- function(site, domain){
     source(file.path(site, "template/layouts/rss.R"), local = TRUE)
     posts <- list.files(file.path(site, "template/posts"), full.names = TRUE)
     posts <- posts[str_detect(posts, "\\.md$")]
-    post.items <- lapply(posts, itemise.post)
+    postdates <- as.Date(str_extract(posts, "[[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2}"), 
+                         format = "%Y_%m_%d")
+    posts<- posts[order(postdates, decreasing = TRUE)]
+    post.items <- lapply(posts, function(x) itemise.post(x, domain))
     cat(rssdoc(title = rss.title, link = rss.link, 
                description = rss.description,
                categories = rss.categories, 

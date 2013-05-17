@@ -69,7 +69,7 @@ render.post <- function(site, postname, layout = "default.R", fig.path = "img"){
 
 #' Watches the site directory for changes and recompiles html appropriately
 #' @name samatha.engine
-samatha.engine <- function(site, post.layout = "default.R", figure.path = "img"){
+samatha.engine <- function(site, domain, post.layout = "default.R", figure.path = "img"){
     cat("Running Samatha static site engine.\n")
     posts <- list.files(file.path(site, "template/posts"))
     pages <- list.files(file.path(site, "template/pages"), recursive = TRUE)
@@ -81,7 +81,7 @@ samatha.engine <- function(site, post.layout = "default.R", figure.path = "img")
     }
     write.tags.to.file(site)
     render.tagfiles(site)
-    render.rss(site)
+    render.rss(site, domain)
     samatha.watch(path = file.path(site, "template"), site.watcher)
 }
 
@@ -104,7 +104,7 @@ site.watcher <- function(added, deleted, modified){
         }
         write.tags.to.file(site)
         render.tagfiles(site)
-        render.rss(site)
+        render.rss(site, domain)
     }
     if(length(changed)){
         cat("changed:", changed, "\n")
@@ -116,7 +116,7 @@ site.watcher <- function(added, deleted, modified){
         }
         write.tags.to.file(site)
         render.tagfiles(site)
-        render.rss(site)
+        render.rss(site, domain)
     }
     TRUE
 }
