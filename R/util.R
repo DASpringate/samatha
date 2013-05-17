@@ -33,17 +33,22 @@ get.postpath <- function(post){
               str_replace(postnames[3], "\\.md", "\\.html"))
 }
 
-#' builds a list of links to all blog posts
+#' builds a list of links to all blog posts. List is in decreasing order of post date
 #' @name html.postlist
+#' @export
 html.postlist <- function(site){
     postlist <- list.files(file.path(site, "template/posts"))
     postlist <- postlist[str_detect(postlist, "\\.md")]
+    postdates <- as.Date(str_extract(postlist, "[[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2}"), 
+                              format = "%Y_%m_%d")
+    postlist <- postlist[order(postdates, decreasing = TRUE)]
+    postdates <- postdates[order(postdates, decreasing = TRUE)]
     posttitles <- lapply(postlist, function(x) extract.title(file.path(site, "template/posts",x)))
     postpaths <- lapply(postlist, get.postpath)
     if(!is.null(postlist)){
         postlinks <- lapply(1:length(postlist),
                             function(x) link.to(url = postpaths[[x]],
-                                                sprintf("%s", posttitles[[x]])))
+                                                sprintf("%s (%s)", posttitles[[x]], postdates[[x]])))
         unordered.list(postlinks)
     }
 } 
