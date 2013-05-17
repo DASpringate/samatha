@@ -84,7 +84,7 @@ render.tagfiles <- function(site, tag.layout = "default_nocomments.R"){
 #' @name html.taglist
 #' @export
 html.taglist <- function(site){
-    tagfile <- file.path(site, basename(site), "tags/tags.json")
+    tagfile <- file.path(site, "template/resources/json/tags.json")
     taglist <- import.tagfile(tagfile)
     if(!is.null(taglist)){
         tagslinks <- lapply(1:length(taglist),
