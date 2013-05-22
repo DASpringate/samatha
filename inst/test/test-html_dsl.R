@@ -17,6 +17,7 @@ test_that("Generic html function works",{
     # container tags have explicit ending tags even when empty
     expect_equal(m("div"), "<div></div>")
     expect_equal(m("div.span8"), "<div class=\"span8\"></div>")
+    expect_equal(m("meta", opts = list(charset = "utf-8"), singleton = TRUE), '<meta charset="utf-8">')
 })
 
 test_that("html element wrappers work",{
@@ -33,5 +34,5 @@ test_that("html element wrappers work",{
     expect_equal(ordered.list(elements, element.opts = list(class = "blah")), 
                  "<ol><li class=\"blah\">apples</li><li class=\"blah\">oranges</li><li class=\"blah\">bananas</li></ol>")
     expect_equal(image.link("www.beautifulthings.com/12538675", opts = list(alt = "A lovely picture of something")), 
-                 "<img  src=\"www.beautifulthings.com/12538675\" alt=\"A lovely picture of something\" />")
+                 "<img src=\"www.beautifulthings.com/12538675\" alt=\"A lovely picture of something\" />")
 })

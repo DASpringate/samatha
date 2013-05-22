@@ -23,7 +23,10 @@ container_tags <- c("a", "article", "aside", "b", "body", "canvas", "dd", "div",
 #' m("span", opts = list(id = "foo", class = "bar"), "baz")
 #' # You can escape a string using the (escape-html) function
 #' m("p", m("script", "Do something evil", escape.html.p = TRUE))
-m <- function(tag, ..., opts = list(), specials = list(id = "#", class = "\\."), escape.html.p = FALSE){
+#' Also caters for singleton tags:
+#' m("meta", opts = list(charset = "utf-8"), singleton = TRUE)
+m <- function(tag, ..., opts = list(), specials = list(id = "#", class = "\\."), 
+              escape.html.p = FALSE, singleton = FALSE){
     for(i in 1:length(specials)){
         tag <- str_split(tag, specials[[i]], 2)[[1]]
         if(length(tag) > 1){
@@ -33,13 +36,22 @@ m <- function(tag, ..., opts = list(), specials = list(id = "#", class = "\\."),
     }
     content <- paste0(..., collapse = "")
     if(!nchar(content)){
-        ifelse(tag %in% container_tags, 
-               sprintf("<%s%s></%s>", tag, render.opts(opts), tag),
-               sprintf("<%s%s />", tag, render.opts(opts)))
+        if(tag %in% container_tags){
+                 sprintf("<%s%s></%s>", tag, render.opts(opts), tag)
+        } else{
+            if(singleton){
+                sprintf("<%s%s>", tag, render.opts(opts))
+            } else sprintf("<%s%s />", tag, render.opts(opts))
+        } 
     } else {
+        if(singleton){
+            out <- sprintf("<%s%s%s>", tag, render.opts(opts), content)
+        } else {
+            out <- sprintf("<%s%s>%s</%s>", tag, render.opts(opts), content, tag)
+        }
         if(escape.html.p) {
-            content <- escape.html(sprintf("<%s%s>%s</%s>", tag, render.opts(opts), content, tag))
-        } else sprintf("<%s%s>%s</%s>", tag, render.opts(opts), content, tag)   
+            escape.html(out)
+        } else out  
     }
 }
 
