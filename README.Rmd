@@ -37,11 +37,11 @@ Sites are created with the following structure:
         - __posts__ Rmd files of blog posts
         - __resources__ html/js/md snippets
     - __basename__ the compiled site.  Copy the contents to a git repo to have a functioning site
-        - css 
-        - img plots from knitted Rmd are automatically placed here
-        - pages
-        - posts
-        - tags
+        - __css__ 
+        - __img__ plots from knitted Rmd are automatically placed here
+        - __pages__
+        - __posts__
+        - __tags__
 
 ## Examples
 
