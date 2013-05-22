@@ -4,7 +4,7 @@
 \usage{
   m(tag, ..., opts = list(),
     specials = list(id = "#", class = "\\."),
-    escape.html.p = FALSE)
+    escape.html.p = FALSE, singleton = FALSE)
 }
 \description{
   Render arguments to a string of markup (HTML but also
@@ -24,5 +24,7 @@ m("p#my-p", m("span.pretty", "hey"))
 m("span", opts = list(id = "foo", class = "bar"), "baz")
 # You can escape a string using the (escape-html) function
 m("p", m("script", "Do something evil", escape.html.p = TRUE))
+# Also caters for singleton tags:
+m("meta", opts = list(charset = "utf-8"), singleton = TRUE)
 }
 

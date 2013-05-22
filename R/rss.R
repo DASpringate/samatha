@@ -2,19 +2,17 @@
 #' @name rssdoc
 #' @export
 rssdoc <- function(title, link, description, categories, rssitems){
-    content <- paste('<?xml version="1.0" encoding="ISO-8859-1" ?>',
+    out <- content('<?xml version="1.0" encoding="ISO-8859-1" ?>',
                      '<rss version="2.0">\n  <channel>\n    ', 
                      paste0(m("title", title), "\n    ", collapse = ""),
                      paste0(m("link", link), "\n    ", collapse = ""),
                      paste0(m("description", description), "\n    ", collapse = ""),
                      paste0(lapply(categories, function(x) m("category", x)), collapse = "\n    "),"\n    ",
-                     paste0(rssitems, collapse = "\n    "), 
-                     sep = "", collapse = "",
+                     paste0(rssitems, collapse = "\n    "),
                      "\n  </channel>",
                      "\n</rss>")
-    
-    structure(content, class="Samatha.Rssdoc")
-    content
+    structure(out, class="Samatha.Rssdoc")
+    out
 }
 
 #' wraps the details of a post up as an rss item

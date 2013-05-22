@@ -23,7 +23,7 @@ container_tags <- c("a", "article", "aside", "b", "body", "canvas", "dd", "div",
 #' m("span", opts = list(id = "foo", class = "bar"), "baz")
 #' # You can escape a string using the (escape-html) function
 #' m("p", m("script", "Do something evil", escape.html.p = TRUE))
-#' Also caters for singleton tags:
+#' # Also caters for singleton tags:
 #' m("meta", opts = list(charset = "utf-8"), singleton = TRUE)
 m <- function(tag, ..., opts = list(), specials = list(id = "#", class = "\\."), 
               escape.html.p = FALSE, singleton = FALSE){
