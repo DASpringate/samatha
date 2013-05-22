@@ -64,7 +64,8 @@ import.tagfile <- function(tagfile){
     
 #' Renders new html pages listing the associated posts for each tag
 #' @name render.tagfiles
-render.tagfiles <- function(site, tag.layout = "default_nocomments.R"){
+render.tagfiles <- function(site){
+    source(file.path(site, "template/layouts/tags.R"), local = TRUE)
     tagfile <- file.path(site, "template/resources/json/tags.json")
     taglist <- import.tagfile(tagfile)
     if(!is.null(taglist)){
