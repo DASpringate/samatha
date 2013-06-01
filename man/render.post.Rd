@@ -7,8 +7,7 @@
 }
 \description{
   Render an .Rmd file into a page according to its layout
-  template post templates are stored in site/template Need
-  to eventually fix the file copy of figures to take into
-  account changes in files Better date functionality
+  template post templates are stored in site/template
+  Better date functionality
 }
 

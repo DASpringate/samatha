@@ -72,20 +72,6 @@ write.html <- function(samatha.page){
 }
 
 
-site <- "/home/mdehsds4/github/blogtest/"
-pagename <- "index.R"
-
-
-
-#' complete rewrite of the samatha engine:
-#' render.post and render.page now return samatha.page objects. DONE.
-#' write function takes a samatha.page object and writes it as an html file. DONE.
-#' get.site.state fnc DONE.
-#' samatha replaces samatha.engine
-#'  - reburns rss and tags
-
-
-
 #' Gets modification times for a vector of files
 #' @name file.status
 file.states <- function(files){
@@ -96,138 +82,151 @@ file.states <- function(files){
 #' @name get.site.name
 get.site.state <- function(site){
     setNames(lapply(c("template/layouts", "template/pages", "template/posts", 
-             file.path(basename(site), "pages"), file.path(basename(site), "posts")), 
-           function(x){
-               if(x == file.path(basename(site), "pages")){
-                   upper <- list.files(file.path(site), full.names = TRUE)
-                   upper <- upper[str_detect(upper, "\\.html$")]
-                   c(file.states(upper), 
-                     file.states(list.files(file.path(site, x), 
-                                          recursive = TRUE, full.names = TRUE)))
-               } else if(x == "template/posts"){
-                   posts <- list.files(file.path(site, x), 
-                                       recursive = TRUE, full.names = TRUE)
-                   posts <- posts[str_detect(posts, "\\.Rmd$")]
-                   file.states(posts)
-               } else {
-                   file.states(list.files(file.path(site, x), 
-                                          recursive = TRUE, full.names = TRUE))
-               }
-           }),
+                      file.path(basename(site), "pages"), file.path(basename(site), "posts")), 
+                    function(x){
+                        if(x == file.path(basename(site), "pages")){
+                            upper <- list.files(file.path(site, basename(site)), full.names = TRUE)
+                            upper <- upper[str_detect(upper, "\\.html$")]
+                            c(file.states(upper), 
+                              file.states(list.files(file.path(site, x), 
+                                                     recursive = TRUE, full.names = TRUE)))
+                        } else if(x == "template/posts"){
+                            posts <- list.files(file.path(site, x), 
+                                                recursive = TRUE, full.names = TRUE)
+                            posts <- posts[str_detect(posts, "\\.Rmd$")]
+                            file.states(posts)
+                        } else {
+                            file.states(list.files(file.path(site, x), 
+                                                   recursive = TRUE, full.names = TRUE))
+                        }
+                    }),
              c("layouts", "source_pages", "source_posts", "dest_pages", "dest_posts"))
 }
 
+
 #' Checks if source files were modified after the corresponding dest files
 #' if :
-#'  - source newer than html file : rebuild file
 #'  - layouts newer than any html files : rebuild everything - DONE
-#'  - no corresponding html for source : build
+#'  - no corresponding html for source  OR source newer than html file : build
 #'  - html files with no source : delete html
-#'  - otherwise do nothing
-#'  Building must have error testing
- 
-#' 
+#'  - otherwise do nothing and return false
+#'  todo - Error testing
 #' @name update.site
 update.site <- function(site, site.state, post.layout, tag.layout, fig.path){
-    updated <- FALSE
+    ## combine into a single function? --
+    orphan.pages.p <- function(){
+        # html pages with no R source
+        sapply(1:length(site.state$dest_pages),
+               function(x) !dp[x] %in% sp)
+    }
+    orphan.posts.p <- function(){
+        # html posts with no R source
+        sapply(1:length(site.state$dest_posts),
+               function(x) !db[x] %in% sb)
+    }
+    check.layouts <- function(lays, states){
+        # are any layouts newer than any files in states?
+        for(l in lays){
+            if(any(l > states)) return(TRUE)
+        }
+        FALSE
+    }
+    ## combine into a single function? --
+    check.pages <- function(){
+        # boolean vector -- true if dest file doesn't exist or is younger than source file
+        sapply(1:length(site.state$source_pages),
+               function(x) !sp[x] %in% dp || 
+                   site.state$source_pages[x] > site.state$dest_pages[which(dp == sp[1])])
+    }
+    check.posts <- function(){
+        # boolean vector -- true if dest file doesn't exist or is younger than source file
+        sapply(1:length(site.state$source_posts),
+               function(x) !sb[x] %in% db || 
+                   site.state$source_posts[x] > site.state$dest_posts[which(db == sb[1])])
+    }
+    
     sp <- str_replace(as.character(sapply(names(site.state$source_pages), 
-                              function(x) basename(x))),
+                                          function(x) basename(x))),
                       "\\.R", "\\.html") # source pages
     dp <- as.character(sapply(names(site.state$dest_pages), 
                               function(x) basename(x))) # dest pages
     sb <- str_replace(str_replace(as.character(sapply(names(site.state$source_posts), 
-                              function(x) basename(x))), 
+                                                      function(x) basename(x))), 
                                   "\\.Rmd", "\\.html"),
-                      "^[[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2}_", "") # source pages
+                      "^[[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2}_", "") # source blog posts
+    
     db <- as.character(sapply(names(site.state$dest_posts), 
-                              function(x) basename(x))) # dest pages
-    for(layout in site.state$layouts){
-        # any layout changes - rebuild whole site
-        if(any(layout > c(site.state$dest_pages, site.state$dest_posts))){
-            for(post in site.state$source_posts) {
-                render.post(site, basename(post), layout = post.layout, fig.path = figure.path)
-            }
-            for(page in site.states$dest_pages{
-                render.page(site, page) ### should be source_pages... cbb
-                # get correct paths for pages:
-                sapply(str_split(names(a$dest_pages), 
-                                 paste0(basename(site), "//?")), 
-                       function(x) x[length(x)])
-            }
-        updated <- TRUE
+                              function(x) basename(x))) # dest blog posts
+    orphan.pages <- names(site.state$dest_pages[orphan.pages.p()])
+    orphan.posts <- names(site.state$dest_posts[orphan.posts.p()])
+    if(length(orphan.pages) || length(orphan.posts)){
+        for(f in c(orphan.pages, orphan.posts)){
+            unlink(f)
         }
+        cat(paste0("Orphan files deleted:\n",paste(c(orphan.pages, orphan.posts), 
+                                                   collapse = ", ")))
+        return(FALSE)
     }
-    for(source %in% site.state$source_pages[!sp %in% dp])
+    if(check.layouts(site.state$layouts, c(site.state$dest_pages, site.state$dest_posts))){
+        for(post in names(site.state$source_posts)) {
+            write.html(render.post(site, basename(post), 
+                                   layout = post.layout, 
+                                   fig.path = figure.path))
+        }
+        pages <- list.files(file.path(site, "template/pages"), recursive = TRUE)
+        for(page in pages[str_detect(pages, "R$")]){
+            write.html(render.page(site, page)) 
+        }
+        cat("rebuild after layout changes.\n")
+        return(TRUE)
+    }
+    pages.tobuild <- names(site.state$source_pages[check.pages()])
+    if(length(pages.tobuild)){
+        p2b <- str_match(names(pages.tobuild), "(template/pages/)(.+)")[,3]
+        for(p in p2b){
+            write.html(render.page(site, p)) 
+        }
+        cat(paste0("Re/built pages:\n",paste(p2b, collapse = ", ")))
+        return(TRUE)
+    }
+    posts.tobuild <- names(site.state$source_posts)[check.posts()]
+    if(length(posts.tobuild)){
+        for(post in posts.tobuild) {
+            write.html(render.post(site, basename(post), 
+                                   layout = post.layout, 
+                                   fig.path = figure.path))
+        }
+        cat(paste0("Re/built posts:\n",paste(posts.tobuild, collapse = ", ")))
+        return(TRUE)
+    }
+    FALSE
 }
 
-sp <- as.character(sapply(names(site.state$source_pages), function(x) str_replace(basename(x), "\\.R", "\\.html")))
-dp <- as.character(sapply(names(site.state$dest_pages), function(x) basename(x)))
+# site <- "/home/david/github/blog"
+# site.state <- get.site.state(site)
+# post.layout = "default.R" 
+# tag.layout = "default.R" 
+# figure.path = "img"
+# pagename <- "index.R"
+
 
 #' Samatha: Runs an infinite loop, updating the site as necessary
 #' @name samatha
+#' @export
 samatha <- function(site, domain, 
                     post.layout = "default.R", 
                     tag.layout = "default.R", 
                     figure.path = "img"){
     while(TRUE){
         site.state <- get.site.state(site)
-        post.checker(site.info, domain, 
-                     post.layout, tag.layout, figure.path)
+        site.updated <- update.site(site = site, site.state = site.state, 
+                                    post.layout = post.layout, tag.layout = tag.layout, 
+                                    fig.path = figure.path)
+        if(site.updated){
+            write.tags.to.file(site)
+            render.tagfiles(site)
+            render.rss(site, domain)
+        }
         Sys.sleep(1)
     }
 }
-
-#' Watches the site directory for changes and recompiles html appropriately
-#' @name samatha.engine
-samatha.engine <- function(site, domain, post.layout = "default.R", figure.path = "img"){
-    cat("Running Samatha static site engine.\n")
-    posts <- list.files(file.path(site, "template/posts"))
-    pages <- list.files(file.path(site, "template/pages"), recursive = TRUE)
-    for(post in posts[str_detect(posts, "Rmd$")]) {
-        render.post(site, post, layout = post.layout, fig.path = figure.path)
-    }
-    for(page in pages[str_detect(pages, "R$")]) {
-        render.page(site, page)
-    }
-    write.tags.to.file(site)
-    render.tagfiles(site)
-    render.rss(site, domain)
-    samatha.watch(path = file.path(site, "template"), site.watcher)
-}
-
-
-site.watcher <- function(added, deleted, modified){
-    changed <- c(added, modified)
-    changed <- changed[str_detect(changed, "\\.R(md)?$")]
-    deleted <- deleted[str_detect(deleted, "\\.R(md)?$")]
-    if(length(deleted)){
-        cat("Flushing posts and pages directories of html files...\n")
-        unlink(file.path(site, basename(site), "posts/*.html"), recursive = TRUE)
-        unlink(file.path(site, basename(site), "pages/*.html"), recursive = FALSE)
-        unlink(file.path(site, basename(site), "*.html"), recursive = FALSE)
-        cat("changed:", changed, "\n")
-        for(post in changed[str_detect(changed, "posts/.+\\.Rmd$")]) {
-            render.post(site, basename(post), layout = post.layout, fig.path = figure.path)
-        }
-        for(page in changed[str_detect(changed, "pages/.+R$")]) {
-            render.page(site, page)
-        }
-        write.tags.to.file(site)
-        render.tagfiles(site)
-        render.rss(site, domain)
-    }
-    if(length(changed)){
-        cat("changed:", changed, "\n")
-        for(post in changed[str_detect(changed, "posts/.+\\.Rmd$")]) {
-            render.post(site, basename(post), layout = post.layout, fig.path = figure.path)
-        }
-        for(page in changed[str_detect(changed, "pages/.+R$")]) {
-            render.page(site, page)
-        }
-        write.tags.to.file(site)
-        render.tagfiles(site)
-        render.rss(site, domain)
-    }
-    TRUE
-}
-
