@@ -2,7 +2,7 @@
 \alias{render.tagfiles}
 \title{Renders new html pages listing the associated posts for each tag}
 \usage{
-  render.tagfiles(site)
+  render.tagfiles(site, tag.layout)
 }
 \description{
   Renders new html pages listing the associated posts for

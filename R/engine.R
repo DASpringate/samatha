@@ -177,12 +177,12 @@ update.site <- function(site, site.state, post.layout, tag.layout, fig.path){
         for(page in pages[str_detect(pages, "R$")]){
             write.html(render.page(site, page)) 
         }
-        cat("rebuild after layout changes.\n")
+        cat("Full site rebuild after layout changes.\n")
         return(TRUE)
     }
     pages.tobuild <- names(site.state$source_pages[check.pages()])
     if(length(pages.tobuild)){
-        p2b <- str_match(names(pages.tobuild), "(template/pages/)(.+)")[,3]
+        p2b <- str_match(pages.tobuild, "(template/pages/)(.+)")[,3]
         for(p in p2b){
             write.html(render.page(site, p)) 
         }
@@ -213,10 +213,8 @@ update.site <- function(site, site.state, post.layout, tag.layout, fig.path){
 #' Samatha: Runs an infinite loop, updating the site as necessary
 #' @name samatha
 #' @export
-samatha <- function(site, domain, 
-                    post.layout = "default.R", 
-                    tag.layout = "default.R", 
-                    figure.path = "img"){
+samatha <- function(site){
+    source(file.path(site, "template/config/config.R"), echo = TRUE, local = TRUE)
     while(TRUE){
         site.state <- get.site.state(site)
         site.updated <- update.site(site = site, site.state = site.state, 
@@ -224,8 +222,9 @@ samatha <- function(site, domain,
                                     fig.path = figure.path)
         if(site.updated){
             write.tags.to.file(site)
-            render.tagfiles(site)
-            render.rss(site, domain)
+            render.tagfiles(site, tag.layout = tag.layout)
+            render.rss(site, domain = domain, rss.title = rss.title, 
+                       rss.description = rss.description, rss.categories = rss.categories)
         }
         Sys.sleep(1)
     }

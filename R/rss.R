@@ -41,7 +41,7 @@ itemise.post <- function(post, domain){
 
 #' Builds an rss file with all posts in the site
 #' @name render.rss
-render.rss <- function(site, domain){
+render.rss <- function(site, domain, rss.title, rss.description, rss.categories){
     source(file.path(site, "template/config/rss.R"), local = TRUE)
     posts <- list.files(file.path(site, "template/posts"), full.names = TRUE)
     posts <- posts[str_detect(posts, "\\.md$")]
@@ -49,7 +49,7 @@ render.rss <- function(site, domain){
                          format = "%Y_%m_%d")
     posts<- posts[order(postdates, decreasing = TRUE)]
     post.items <- lapply(posts, function(x) itemise.post(x, domain))
-    cat(rssdoc(title = rss.title, link = rss.link, 
+    cat(rssdoc(title = rss.title, link = domain, 
                description = rss.description,
                categories = rss.categories, 
                rssitems = post.items), 
