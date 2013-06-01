@@ -32,7 +32,8 @@ Sites are created with the following structure:
 
 * __basename__
     - __template__ the source for your site
-        - __layouts__ layout templates for pages, posts, rss and tags
+        - __layouts__ layout templates for pages and posts
+        - __config__ config files for rss, tags etc.
         - __pages__ Content of pages built with the Samatha dsl
         - __posts__ Rmd files of blog posts
         - __resources__ html/js/md snippets

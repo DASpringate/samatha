@@ -42,7 +42,7 @@ itemise.post <- function(post, domain){
 #' Builds an rss file with all posts in the site
 #' @name render.rss
 render.rss <- function(site, domain){
-    source(file.path(site, "template/layouts/rss.R"), local = TRUE)
+    source(file.path(site, "template/config/rss.R"), local = TRUE)
     posts <- list.files(file.path(site, "template/posts"), full.names = TRUE)
     posts <- posts[str_detect(posts, "\\.md$")]
     postdates <- as.Date(str_extract(posts, "[[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2}"), 

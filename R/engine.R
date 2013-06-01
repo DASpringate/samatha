@@ -1,27 +1,3 @@
-#' Start a new site 
-#' @name create.site.structure
-#' @description Sets up the directory structure for a new static site
-#' @param site path to the directory you want to set up
-#' @export
-create.site.structure <- function(site){
-    new.site.p <- dir.create(site, showWarnings = FALSE)
-    if(new.site.p){
-        for(d in c("posts", "pages", "css", "img", "js", "resources", "tags")){
-            dir.create(file.path(site, basename(site), d), 
-                       showWarnings = FALSE, recursive = TRUE)
-        }
-        for(d in c("layouts", "posts", "pages/pages", "resources/markdown", "resources/html", "resources/json")){
-            dir.create(file.path(site, "template", d), 
-                       showWarnings = FALSE, recursive = TRUE)
-    }
-        cat(sprintf("Directory structure set up for %s\n", site))
-        TRUE
-    } else {
-        cat(sprintf("Directory %s already exists\n", site))
-        FALSE 
-    }
-}
-
 #' @title Render a page using the Samatha html dsl
 #' @name render.page
 #' @description Renders a page according to its layout template
@@ -29,43 +5,177 @@ create.site.structure <- function(site){
 #' @export
 render.page <- function(site, pagename){
     source(file.path(site, "template/pages", pagename), local = TRUE)
-    cat(source(file.path(site, "template/layouts", layout), local = TRUE)$value, 
-               file = file.path(site, 
-                                basename(site), 
-                                str_replace(pagename, "\\.R", "\\.html")))
+    page.obj <- structure(list(html = source(file.path(site, "template/layouts", layout), local = TRUE)$value,
+                               content = page,
+                               layout = layout,
+                               file = file.path(site, 
+                                                basename(site), 
+                                                str_replace(pagename, "\\.R", "\\.html")),
+                               title = title,
+                               sourcefile = pagename,
+                               tags = ""),
+                          class = "Samatha.Page")
+    page.obj
 } 
 
 #' Render a post from an R markdown file
 #' @name render.post
 #' @description Render an .Rmd file into a page according to its layout template
 #' post templates are stored in site/template
-#' Need to eventually fix the file copy of figures to take into account changes in files
 #' Better date functionality
 #' @export
-# render.post(site, "2013_05_01_The_first_post.Rmd")
+# render.post(site, "2013_04_16_scraping_metadata.Rmd")
 render.post <- function(site, postname, layout = "default.R", fig.path = "img"){
     postnames <- str_match(postname, pattern = "([[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2})_(.*)")
-    if(length(postnames) != 3 | ! str_detect(postnames[3], "\\.Rmd")) stop(sprintf("Bad post filename: %s", postnames[1]))
+    md.file <- file.path(site, "template/posts",str_replace(postnames[1], "\\.Rmd", "\\.md"))
+    if(length(postnames) != 3 | ! str_detect(postnames[3], "\\.Rmd")){
+        cat(sprintf("Bad post filename: %s", postnames[1]))
+        return(FALSE)
+    } 
     opts_chunk$set(fig.path = file.path(site, basename(site), paste0(fig.path, "/")))
     knit(input = file.path(site, "template/posts", postnames[1]),
-         output = file.path(site, "template/posts", str_replace(postnames[1], "\\.Rmd", "\\.md")))
-    #for(f in list.files("img")) file.copy(file.path("img", f), file.path(site, basename(site), "img", f), overwrite = FALSE)
-    page <- markdownToHTML(file.path(site, "template/posts", str_replace(postnames[1], "\\.Rmd", "\\.md")),
-                                   fragment.only = TRUE)
+         output = md.file)
+    page <- markdownToHTML(md.file, fragment.only = TRUE)
     page <- paste0(page, m("h6", sprintf("Posted on %s", as.Date(postnames[2], format("%Y_%m_%d")))))
     page <- str_replace_all(page, 
                             paste0("img src=\"",file.path(site, basename(site), fig.path)), 
                             paste0("img src=\"/", fig.path))
     month.dir <- file.path(site, basename(site), "posts", 
-                          str_replace(str_extract(postnames[2], 
-                                                  "[[:digit:]]{4}_[[:digit:]]{2}"), 
-                                      "_", "/"))
+                           str_replace(str_extract(postnames[2], 
+                                                   "[[:digit:]]{4}_[[:digit:]]{2}"), 
+                                       "_", "/"))
     dir.create(month.dir, showWarnings = FALSE, recursive = TRUE)
-    cat(source(file.path(site, "template/layouts", layout), local = TRUE)$value, 
-        file = file.path(month.dir, 
-                         str_replace(postnames[3], "\\.Rmd", "\\.html")))   
+    post.obj <- structure(list(html = source(file.path(site, "template/layouts", layout), local = TRUE)$value,
+                               content = page,
+                               layout = layout,
+                               file = file.path(month.dir, 
+                                                str_replace(postnames[3], "\\.Rmd", "\\.html")),
+                               title = extract.title(md.file),
+                               sourcefile = postname,
+                               tags = extract.tags(md.file)),
+                          class = "Samatha.Page")
+    post.obj
 }
 
+#' Writes the html content of a Samatha.Page object to 
+#' the file specified in the file element
+#' @name write.html
+write.html <- function(samatha.page){
+    if(class(samatha.page) == "Samatha.Page"){
+        cat(samatha.page$html, 
+            file = samatha.page$file)
+        TRUE
+    } else {
+        cat("Not a valid Samatha.Page object")
+        FALSE
+    }
+}
+
+
+site <- "/home/mdehsds4/github/blogtest/"
+pagename <- "index.R"
+
+
+
+#' complete rewrite of the samatha engine:
+#' render.post and render.page now return samatha.page objects. DONE.
+#' write function takes a samatha.page object and writes it as an html file. DONE.
+#' get.site.state fnc DONE.
+#' samatha replaces samatha.engine
+#'  - reburns rss and tags
+
+
+
+#' Gets modification times for a vector of files
+#' @name file.status
+file.states <- function(files){
+    setNames(file.info(files)$mtime, files)
+}
+
+#' Gets modification dates for all source and dest files in a site
+#' @name get.site.name
+get.site.state <- function(site){
+    setNames(lapply(c("template/layouts", "template/pages", "template/posts", 
+             file.path(basename(site), "pages"), file.path(basename(site), "posts")), 
+           function(x){
+               if(x == file.path(basename(site), "pages")){
+                   upper <- list.files(file.path(site), full.names = TRUE)
+                   upper <- upper[str_detect(upper, "\\.html$")]
+                   c(file.states(upper), 
+                     file.states(list.files(file.path(site, x), 
+                                          recursive = TRUE, full.names = TRUE)))
+               } else if(x == "template/posts"){
+                   posts <- list.files(file.path(site, x), 
+                                       recursive = TRUE, full.names = TRUE)
+                   posts <- posts[str_detect(posts, "\\.Rmd$")]
+                   file.states(posts)
+               } else {
+                   file.states(list.files(file.path(site, x), 
+                                          recursive = TRUE, full.names = TRUE))
+               }
+           }),
+             c("layouts", "source_pages", "source_posts", "dest_pages", "dest_posts"))
+}
+
+#' Checks if source files were modified after the corresponding dest files
+#' if :
+#'  - source newer than html file : rebuild file
+#'  - layouts newer than any html files : rebuild everything - DONE
+#'  - no corresponding html for source : build
+#'  - html files with no source : delete html
+#'  - otherwise do nothing
+#'  Building must have error testing
+ 
+#' 
+#' @name update.site
+update.site <- function(site, site.state, post.layout, tag.layout, fig.path){
+    updated <- FALSE
+    sp <- str_replace(as.character(sapply(names(site.state$source_pages), 
+                              function(x) basename(x))),
+                      "\\.R", "\\.html") # source pages
+    dp <- as.character(sapply(names(site.state$dest_pages), 
+                              function(x) basename(x))) # dest pages
+    sb <- str_replace(str_replace(as.character(sapply(names(site.state$source_posts), 
+                              function(x) basename(x))), 
+                                  "\\.Rmd", "\\.html"),
+                      "^[[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2}_", "") # source pages
+    db <- as.character(sapply(names(site.state$dest_posts), 
+                              function(x) basename(x))) # dest pages
+    for(layout in site.state$layouts){
+        # any layout changes - rebuild whole site
+        if(any(layout > c(site.state$dest_pages, site.state$dest_posts))){
+            for(post in site.state$source_posts) {
+                render.post(site, basename(post), layout = post.layout, fig.path = figure.path)
+            }
+            for(page in site.states$dest_pages{
+                render.page(site, page) ### should be source_pages... cbb
+                # get correct paths for pages:
+                sapply(str_split(names(a$dest_pages), 
+                                 paste0(basename(site), "//?")), 
+                       function(x) x[length(x)])
+            }
+        updated <- TRUE
+        }
+    }
+    for(source %in% site.state$source_pages[!sp %in% dp])
+}
+
+sp <- as.character(sapply(names(site.state$source_pages), function(x) str_replace(basename(x), "\\.R", "\\.html")))
+dp <- as.character(sapply(names(site.state$dest_pages), function(x) basename(x)))
+
+#' Samatha: Runs an infinite loop, updating the site as necessary
+#' @name samatha
+samatha <- function(site, domain, 
+                    post.layout = "default.R", 
+                    tag.layout = "default.R", 
+                    figure.path = "img"){
+    while(TRUE){
+        site.state <- get.site.state(site)
+        post.checker(site.info, domain, 
+                     post.layout, tag.layout, figure.path)
+        Sys.sleep(1)
+    }
+}
 
 #' Watches the site directory for changes and recompiles html appropriately
 #' @name samatha.engine
@@ -120,6 +230,4 @@ site.watcher <- function(added, deleted, modified){
     }
     TRUE
 }
-
-
 
