@@ -19,7 +19,6 @@ Collate:
     'html.R'
     'pages.R'
     'engine.R'
-    'watcher.R'
     'tags.R'
     'rss.R'
     'util.R'

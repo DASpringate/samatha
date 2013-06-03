@@ -25,7 +25,7 @@ render.page <- function(site, pagename){
 #' Better date functionality
 #' @export
 # render.post(site, "2013_04_16_scraping_metadata.Rmd")
-render.post <- function(site, postname, layout = "default.R", fig.path = "img"){
+render.post <- function(site, postname, layout, fig.path){
     postnames <- str_match(postname, pattern = "([[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2})_(.*)")
     md.file <- file.path(site, "template/posts",str_replace(postnames[1], "\\.Rmd", "\\.md"))
     if(length(postnames) != 3 | ! str_detect(postnames[3], "\\.Rmd")){
@@ -136,13 +136,13 @@ update.site <- function(site, site.state, post.layout, tag.layout, fig.path){
         # boolean vector -- true if dest file doesn't exist or is younger than source file
         sapply(1:length(site.state$source_pages),
                function(x) !sp[x] %in% dp || 
-                   site.state$source_pages[x] > site.state$dest_pages[which(dp == sp[1])])
+                   site.state$source_pages[x] > site.state$dest_pages[which(dp == sp[x])])
     }
     check.posts <- function(){
         # boolean vector -- true if dest file doesn't exist or is younger than source file
         sapply(1:length(site.state$source_posts),
                function(x) !sb[x] %in% db || 
-                   site.state$source_posts[x] > site.state$dest_posts[which(db == sb[1])])
+                   site.state$source_posts[x] > site.state$dest_posts[which(db == sb[x])])
     }
     
     sp <- str_replace(as.character(sapply(names(site.state$source_pages), 
@@ -164,14 +164,14 @@ update.site <- function(site, site.state, post.layout, tag.layout, fig.path){
             unlink(f)
         }
         cat(paste0("Orphan files deleted:\n",paste(c(orphan.pages, orphan.posts), 
-                                                   collapse = ", ")))
+                                                   collapse = ", ")), "\n")
         return(FALSE)
     }
     if(check.layouts(site.state$layouts, c(site.state$dest_pages, site.state$dest_posts))){
         for(post in names(site.state$source_posts)) {
             write.html(render.post(site, basename(post), 
                                    layout = post.layout, 
-                                   fig.path = figure.path))
+                                   fig.path = fig.path))
         }
         pages <- list.files(file.path(site, "template/pages"), recursive = TRUE)
         for(page in pages[str_detect(pages, "R$")]){
@@ -186,7 +186,7 @@ update.site <- function(site, site.state, post.layout, tag.layout, fig.path){
         for(p in p2b){
             write.html(render.page(site, p)) 
         }
-        cat(paste0("Re/built pages:\n",paste(p2b, collapse = ", ")))
+        cat(paste0("Re/built pages:\n",paste(p2b, collapse = ", ")), "\n")
         return(TRUE)
     }
     posts.tobuild <- names(site.state$source_posts)[check.posts()]
@@ -196,13 +196,13 @@ update.site <- function(site, site.state, post.layout, tag.layout, fig.path){
                                    layout = post.layout, 
                                    fig.path = figure.path))
         }
-        cat(paste0("Re/built posts:\n",paste(posts.tobuild, collapse = ", ")))
+        cat(paste0("Re/built posts:\n",paste(posts.tobuild, collapse = ", ")), "\n")
         return(TRUE)
     }
     FALSE
 }
 
-# site <- "/home/david/github/blog"
+# site <- "/home/mdehsds4/github/blog"
 # site.state <- get.site.state(site)
 # post.layout = "default.R" 
 # tag.layout = "default.R" 
@@ -214,7 +214,7 @@ update.site <- function(site, site.state, post.layout, tag.layout, fig.path){
 #' @name samatha
 #' @export
 samatha <- function(site){
-    source(file.path(site, "template/config/config.R"), echo = TRUE, local = TRUE)
+    source(file.path(site, "template/config/config.R"), echo = TRUE, local = FALSE)
     while(TRUE){
         site.state <- get.site.state(site)
         site.updated <- update.site(site = site, site.state = site.state, 
