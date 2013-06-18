@@ -1,6 +1,12 @@
 #' Representation of an RSS page in R
 #' @name rssdoc
 #' @export
+#' @param title title of the rss feed
+#' @param link domain name for the rss feed
+#' @param description decription of the rss feed
+#' @param categories character vector of categories for the whole feed
+#' @param rssitems list of items to be included in the feed
+#' @return an object of class Samatha.Rssdoc, which is a character vector of length 1 representing an rss feed
 rssdoc <- function(title, link, description, categories, rssitems){
     out <- content('<?xml version="1.0" encoding="ISO-8859-1" ?>',
                      '<rss version="2.0">\n  <channel>\n    ', 
@@ -16,7 +22,11 @@ rssdoc <- function(title, link, description, categories, rssitems){
 }
 
 #' wraps the details of a post up as an rss item
+#' tags and title are extracted from the post for the item description
 #' @name itemise.post
+#' @param post a .md file of a blog post
+#' @param domain the domain name of the site
+#' @return a character sting of length 1 representing a post in rss format
 #' @export
 itemise.post <- function(post, domain){
     fname <- str_match(post, pattern = "([[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2})_(.*)")
@@ -40,7 +50,15 @@ itemise.post <- function(post, domain){
 }
 
 #' Builds an rss file with all posts in the site
+#' Typically, the parameters would be population from a config.R file
 #' @name render.rss
+#' @param site the path to the site
+#' @param domain domain name for the site
+#' @param rss.title title of the rss feed
+#' @param rss.description description of the feed
+#' @param rss.categories category tags for the whole feed
+#' @return NULL writes to file as a side effect
+#' @seealso rssdoc
 render.rss <- function(site, domain, rss.title, rss.description, rss.categories){
     #source(file.path(site, "template/config/rss.R"), local = TRUE)
     posts <- list.files(file.path(site, "template/posts"), full.names = TRUE)
@@ -63,6 +81,8 @@ render.rss <- function(site, domain, rss.title, rss.description, rss.categories)
 #' @param site character - Full path to your Samatha site
 #' @param domain character - The domain name of your site
 #' @param categories - character vector of the categories you want to produce seperate rss feeds for
+#' @return NULL writes to file as a side effect
+#' @seealso rssdoc render.rss
 rss.category <- function(site, domain, categories){
     main.rss <- xmlTreeParse(file.path(site, basename(site), "rss.xml"))
     for(category in categories){

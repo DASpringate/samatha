@@ -5,6 +5,9 @@
   ordered.list(elements, list.opts = list(),
     element.opts = list())
 }
+\value{
+  character
+}
 \description{
   Wraps a list of strings into an ordered list
 }

@@ -4,6 +4,13 @@
 \usage{
   import.tagfile(tagfile)
 }
+\arguments{
+  \item{tagfile}{path to JSON tag list file}
+}
+\value{
+  list of tags and associated vectors of posts and links,
+  or NULL if file doesn't exist
+}
 \description{
   Reads in a JSON tagfile
 }

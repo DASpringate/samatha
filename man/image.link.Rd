@@ -4,6 +4,9 @@
 \usage{
   image.link(uri, opts = list())
 }
+\value{
+  character
+}
 \description{
   Builds an image element
 }

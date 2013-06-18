@@ -14,10 +14,16 @@ New rss category feeds are placed in site/site/tags/CATEGORY_NAME.xml}
   \item{categories}{- character vector of the categories
   you want to produce seperate rss feeds for}
 }
+\value{
+  NULL writes to file as a side effect
+}
 \description{
   Creates rss feeds for the given categories. items are
   parsed from the main rss feed using xpath New rss
   category feeds are placed in
   site/site/tags/CATEGORY_NAME.xml
+}
+\seealso{
+  rssdoc render.rss
 }
 

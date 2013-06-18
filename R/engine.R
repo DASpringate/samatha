@@ -1,8 +1,23 @@
+#' Render a page using the Samatha html dsl
+#'  pages are stored in site/template/pages
+#'
 #' @title Render a page using the Samatha html dsl
 #' @name render.page
 #' @description Renders a page according to its layout template
-#' pages are stored in site/template/pages
 #' @export
+#' @param site Absolute path to your Samatha site
+#' @param pagename name of the R source file for the page to be rendered as html
+#' @return {Object of class Samatha.Page
+#' An object of class "Samatha.Page is a list containing at least the following components:
+#' html         A character string of the html of a page
+#' layout       The name of the layout file used to render the html
+#' file         Name of the file to write the html to
+#' title        title for the page
+#' sourcefile   path to the source R or Rmd file for the page
+#' }
+#' examples \dontrun{
+#' render.post(site, "index.R", layout = "default")
+#' }
 render.page <- function(site, pagename){
     source(file.path(site, "template/pages", pagename), local = TRUE)
     page.obj <- structure(list(html = source(file.path(site, "template/layouts", layout), local = TRUE)$value,
@@ -24,7 +39,21 @@ render.page <- function(site, pagename){
 #' post templates are stored in site/template
 #' Better date functionality
 #' @export
-# render.post(site, "2013_04_16_scraping_metadata.Rmd")
+#' @param site Absolute path to your Samatha site
+#' @param postname Name of the Rmd source for the post
+#' @param layout The name of the layout file used to render the post
+#' @param fig.path name of the directory in the site where figures (particularly R charts etc.) are to be kept
+#' @return {Object of class Samatha.Page
+#' An object of class "Samatha.Page is a list containing at least the following components:
+#' html         A character string of the html of a page
+#' layout       The name of the layout file used to render the html
+#' file         Name of the file to write the html to
+#' title        title for the page
+#' sourcefile   path to the source R or Rmd file for the page
+#' }
+#' @examples \dontrun{
+#' render.post(site, "My_first_post.Rmd", layout = "default", fig.path = "img")
+#' } 
 render.post <- function(site, postname, layout, fig.path){
     postnames <- str_match(postname, pattern = "([[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2})_(.*)")
     md.file <- file.path(site, "template/posts",str_replace(postnames[1], "\\.Rmd", "\\.md"))
@@ -58,8 +87,10 @@ render.post <- function(site, postname, layout, fig.path){
 }
 
 #' Writes the html content of a Samatha.Page object to 
-#' the file specified in the file element
+#' the file specified in the file element. 
 #' @name write.html
+#' @param samatha.page an object of class Samatha.Page
+#' @return logical FALSE if the object is not a Samantha.Page object, otherwise TRUE
 write.html <- function(samatha.page){
     if(class(samatha.page) == "Samatha.Page"){
         cat(samatha.page$html, 
@@ -74,12 +105,19 @@ write.html <- function(samatha.page){
 
 #' Gets modification times for a vector of files
 #' @name file.status
+#' @param character vector of file paths
+#' @return a named vector of modification times with file paths as namess
 file.states <- function(files){
     setNames(file.info(files)$mtime, files)
 }
 
 #' Gets modification dates for all source and dest files in a site
 #' @name get.site.name
+#' @param site Absolute path to your Samatha site
+#' @return {
+#' a list of file states (as returned by file.states()) for the different elements of the site:
+#'  "layouts", "source_pages", "source_posts", "dest_pages", "dest_posts"
+#' }
 get.site.state <- function(site){
     setNames(lapply(c("template/layouts", "template/pages", "template/posts", 
                       file.path(basename(site), "pages"), file.path(basename(site), "posts")), 
@@ -112,6 +150,11 @@ get.site.state <- function(site){
 #'  - otherwise do nothing and return false
 #'  todo - Error testing
 #' @name update.site
+#' @param site Absolute path to your Samatha site
+#' @param site.state The value of get.site.state(site): modification times for elements of the site
+#' @param post.layout The name of the layout file used to render posts
+#' @param tag.layout The name of the layout file used to render subject tags
+#' @param fig.path name of the directory in the site where figures (particularly R charts etc.) are to be kept
 #' @return logical TRUE if site has been updated, FALSE otherwise
 update.site <- function(site, site.state, post.layout, tag.layout, fig.path){
     ## combine into a single function? --
@@ -203,15 +246,8 @@ update.site <- function(site, site.state, post.layout, tag.layout, fig.path){
     FALSE
 }
 
-# site <- "/home/mdehsds4/github/blog"
-# site.state <- get.site.state(site)
-# post.layout = "default.R" 
-# tag.layout = "default.R" 
-# figure.path = "img"
-# pagename <- "index.R"
-
-
 #' Samatha: Runs an infinite loop, updating the site as necessary
+#' This is the main command to update your site.  You can leave this runningg while you make edits to source files
 #' @name samatha
 #' @param site character absolute path to your Samatha site
 #' @export

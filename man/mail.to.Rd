@@ -4,6 +4,9 @@
 \usage{
   mail.to(email, ..., subject = "", opts = list())
 }
+\value{
+  character
+}
 \description{
   {Wraps content in html hyperlink with the supplied email
   address. If no content provided the email address is

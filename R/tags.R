@@ -1,7 +1,10 @@
 
 
 #' Builds a list of post tags and links to their associated posts
+#' Extracts tags from the top of all .md files in a list of posts
 #' @name collate.tags
+#' @param posts a character vector of names of posts
+#' @return a list of tag names, each with associated vectors of titles and urls for associated posts
 collate.tags <- function(posts){
     taglist <- list()
     postlist <- list.files(posts, recursive = TRUE)
@@ -28,7 +31,6 @@ collate.tags <- function(posts){
                                                                            "[[:digit:]]{4}_[[:digit:]]{2}"), 
                                                                "_", "/"),
                                                    str_replace(fname[3], "\\.md", "\\.html")))
-                
             }
         }
     }
@@ -36,7 +38,11 @@ collate.tags <- function(posts){
 }
 
 #' writes a json file of post tags and links to their associated posts
+#' Seperate from collate.tags to maintain functional style
 #' @name write.tags.to.file
+#' @param path to the Samatha site
+#' @return NULL writes to file as a side effect
+#' @seealso collate.tags
 write.tags.to.file <- function(site){
     tags <- collate.tags(file.path(site, "template/posts"))
     cat(toJSON(tags), file = file.path(site, "template/resources/json/tags.json"))
@@ -44,6 +50,10 @@ write.tags.to.file <- function(site){
 
 #' Generates page content for a tag, to be rendered with a layout
 #' @name build.tagpage
+#' @param list element with associated vectors of titles and urls for associated posts
+#' @param tagname name of the tag
+#' @seealso collate.tags
+#' @return character vector of length 1 containing html for an unordered list of links to posts associated with the tag
 build.tagpage <- function(tag, tagname){
     taglinks <- lapply(1:length(tag$titles), 
                        function(x) link.to(url = paste0("/", tag$urls[[x]]), tag$titles[[x]]))
@@ -53,6 +63,8 @@ build.tagpage <- function(tag, tagname){
 
 #' Reads in a  JSON tagfile
 #' @name import.tagfile
+#' @param tagfile path to JSON tag list file
+#' @return list of tags and associated vectors of posts and links, or NULL if file doesn't exist
 import.tagfile <- function(tagfile){
     if(file.exists(tagfile)){
         return(fromJSON(readChar(tagfile, n = file.info(tagfile)$size), simplify = FALSE))
@@ -63,7 +75,11 @@ import.tagfile <- function(tagfile){
 }
     
 #' Renders new html pages listing the associated posts for each tag
+#' loops over elements of a taglist, building pages for each tag
 #' @name render.tagfiles
+#' @param site the absolute path to the Samatha site
+#' @param tag.layout name of the layout file to be used to render tags
+#' @return NULL writes to files as a side effect
 render.tagfiles <- function(site, tag.layout){
     tagfile <- file.path(site, "template/resources/json/tags.json")
     taglist <- import.tagfile(tagfile)
@@ -82,6 +98,11 @@ render.tagfiles <- function(site, tag.layout){
 #' with numbers of posts associated with each and links to the tag pages
 #' This is a useful addition to an index page
 #' @name html.taglist
+#' @param site the absolute path to the Samatha site
+#' @return {
+#' character string representation of an unordered html list of tags, 
+#' with numbers of posts associated with each and links to the tag pages
+#' }
 #' @export
 html.taglist <- function(site){
     tagfile <- file.path(site, "template/resources/json/tags.json")

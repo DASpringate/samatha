@@ -4,6 +4,13 @@
 \usage{
   file.states(files)
 }
+\arguments{
+  \item{character}{vector of file paths}
+}
+\value{
+  a named vector of modification times with file paths as
+  namess
+}
 \description{
   Gets modification times for a vector of files
 }

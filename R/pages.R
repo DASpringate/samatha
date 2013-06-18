@@ -2,7 +2,7 @@
 #' Functions for wrapping html in doctype boilerplate
 #' 
 
-#' html doctype header represntation
+#' html doctype header representation
 #' @name doctype
 #' @description List of document type declarations for html and xml
 doctypes <- list(html4 = list(paste("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\"",
@@ -20,9 +20,15 @@ doctypes <- list(html4 = list(paste("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.
 #' Wraps input in head tags
 #' @name html_head
 #' @description Build an html header
+#' @param title character string
+#' @param \dots optional tag body
+#' @param opts optional html attributes
+#' @seealso {
+#' m for generating generic html
+#' html_body for wrapping input in body tags
+#' }
 #' @export
-#' @examples
-#' html_head("My first page")
+#' @examples html_head("My first page")
 html_head <- function(title, ..., opts = list()){
     m("head", ..., opts = c(list(title = title), opts))
 }
@@ -30,9 +36,14 @@ html_head <- function(title, ..., opts = list()){
 #' Wraps input in body tags
 #' @name html_body
 #' @description Build an html body
+#' @param \dots optional tag body
+#' @param opts optional html attributes
 #' @export
-#' @examples 
-#' html_body("Hello world!")
+#' @seealso {
+#' m for generating generic html
+#' html_head for wrapping input in head tags
+#' }
+#' @examples html_body("Hello world!")
 html_body <- function(..., opts = list()){
     m("body", ..., opts = opts)
 }
@@ -41,9 +52,13 @@ html_body <- function(..., opts = list()){
 #' @name webdoc
 #' @description Build a web document with the appropriate doctype
 #' @export
-#' @examples
+#' @param doctype a doctype header, e.g. one of the elements of the list doctype
+#' @param \dots the contents of the webpage, typically a call to html_head() and a call to html_body() 
+#' @return an object of class Samatha.Webdoc which is a character vector of length 1
+#' @examples {
 #' elements = list("apples", "oranges", "bananas")
-#' webdoc("html5",html_head("My first page"),html_body("Hello world"), unordered.list(elements))
+#' webdoc("html5",html_head("My first page"),html_body("Hello world", unordered.list(elements)))
+#' }
 webdoc <- function(doctype, ...){
     content <- m(doctypes[[doctype]][[2]]$tag, paste0(..., collapse = ""), 
                     opts = doctypes[[2]]$opts)
@@ -57,8 +72,10 @@ webdoc <- function(doctype, ...){
 #' @name include.css
 #' @description Include a list of external stylesheet files
 #' @export
-#' @examples 
-#' include.css(c("mysheeet.css", "sheet2.css", "sheet3.css"))
+#' @param stylesheets a character vector of css files (all css files should be stored in site/basename(site)/css)
+#' @return character vector of length 1
+#' @examples include.css(c("mysheeet.css", "sheet2.css", "sheet3.css"))
+#' @seealso include.js
 include.css <- function(stylesheets){
     paste0(lapply(stylesheets, 
                   function(style) m("link", opts = list(type = "text/css",
@@ -67,12 +84,14 @@ include.css <- function(stylesheets){
            collapse = "\n")
 }
 
-#' js include represntation
+#' js include representation
 #' @name include.js
 #' @description Include a list of external javascript files
 #' @export
-#' @examples 
-#' include.js(c("script1.js", "script2.js", "script3.js"))
+#' @param scripts a character vector of js files (all js files should be stored in site/basename(site)/js)
+#' @examples include.js(c("script1.js", "script2.js", "script3.js"))
+#' @return character vector of length 1
+#' @seealso include.css
 include.js <- function(scripts){
     paste0(lapply(scripts, 
                   function(script) m("script", opts = list(type = "text/javascript",
