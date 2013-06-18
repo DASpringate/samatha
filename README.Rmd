@@ -1,4 +1,4 @@
-Samatha v0.4
+Samatha v0.4.0
 ============
 
 #### Copyright David Springate 2013 ([CC BY 3.0](creativecommons.org/licenses/by/3.0))
@@ -32,6 +32,7 @@ Extra features:
 * simple wrapper functions for including snippet files containing md or html/js (e.g. for external comments site code and analytics)
 * You can include tags for posts in the first line of a post .Rmd file by starting the line with `%`. All words on the rest of the line are coerced to tags and included in the RSS file.
 * Automatically generates an RSS file at the top level of your site with global paths and per item tags, content and full links to images etc. Tags/categroies for the whole site can be set in the template/config/config.R file.  This is the format required by [Rbloggers](www.rbloggers.com) for blog submission.
+* The `rss.category.feeds` variable in the `config.R` file can be used to add extra rss feeds for specific categories.  For example, [R Bloggers](www.rbloggers.com) require that all posts sent to them only concern `R`.  You can therefore set `rss.category.feeds = c(R)` and Samatha will produce another rss feed just with your R content (matching tags for "R") and put it in `site/site/tags/R.xml`.  You can then send this link to Rbloggers and be feee to publish on other subjects, knowing only R content will go to Rbloggers.
 * Helper functions for building lists of tags and lists of posts
 
 Sites are created with the following structure:

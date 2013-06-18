@@ -4,6 +4,9 @@
 \usage{
   samatha(site)
 }
+\arguments{
+  \item{site}{character absolute path to your Samatha site}
+}
 \description{
   Samatha: Runs an infinite loop, updating the site as
   necessary

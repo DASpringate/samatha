@@ -112,6 +112,7 @@ get.site.state <- function(site){
 #'  - otherwise do nothing and return false
 #'  todo - Error testing
 #' @name update.site
+#' @return logical TRUE if site has been updated, FALSE otherwise
 update.site <- function(site, site.state, post.layout, tag.layout, fig.path){
     ## combine into a single function? --
     orphan.pages.p <- function(){
@@ -212,6 +213,7 @@ update.site <- function(site, site.state, post.layout, tag.layout, fig.path){
 
 #' Samatha: Runs an infinite loop, updating the site as necessary
 #' @name samatha
+#' @param site character absolute path to your Samatha site
 #' @export
 samatha <- function(site){
     source(file.path(site, "template/config/config.R"), echo = TRUE, local = FALSE)
@@ -225,6 +227,7 @@ samatha <- function(site){
             render.tagfiles(site, tag.layout = tag.layout)
             render.rss(site, domain = domain, rss.title = rss.title, 
                        rss.description = rss.description, rss.categories = rss.categories)
+            rss.category(site, domain = domain, categories = rss.category.feeds)
         }
         Sys.sleep(1)
     }

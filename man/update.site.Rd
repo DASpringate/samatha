@@ -11,6 +11,9 @@ if :
   update.site(site, site.state, post.layout, tag.layout,
     fig.path)
 }
+\value{
+  logical TRUE if site has been updated, FALSE otherwise
+}
 \description{
   Checks if source files were modified after the
   corresponding dest files if : - layouts newer than any

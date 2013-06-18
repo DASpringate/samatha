@@ -12,7 +12,8 @@ Depends:
     stringr,
     knitr,
     markdown,
-    RJSONIO
+    RJSONIO,
+    XML
 Collate:
     'elements.R'
     'forms.R'

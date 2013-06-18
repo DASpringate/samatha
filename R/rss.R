@@ -56,5 +56,23 @@ render.rss <- function(site, domain, rss.title, rss.description, rss.categories)
         file = file.path(site, basename(site), "rss.xml"))
 }
 
+#' Creates rss feeds for the given categories.
+#' items are parsed from the main rss feed using xpath
+#' New rss category feeds are placed in site/site/tags/CATEGORY_NAME.xml
+#' @name rss.category
+#' @param site character - Full path to your Samatha site
+#' @param domain character - The domain name of your site
+#' @param categories - character vector of the categories you want to produce seperate rss feeds for
+rss.category <- function(site, domain, categories){
+    main.rss <- xmlTreeParse(file.path(site, basename(site), "rss.xml"))
+    for(category in categories){
+        message(sprintf("Building %s category feed...", category))
+        items <- getNodeSet(rss, sprintf("//item[category='%s']", category))
+        rss.out <- rssdoc(title = sprintf("%s :: %s", rss.title, category), link = domain,
+                          description = sprintf("%s :: %s", rss.description, category),
+                          rssitems = lapply(items, saveXML, prefix = NULL), categories = category)
+        cat(rss.out, file = file.path(site, basename(site), "tags", sprintf("%s.xml", category)))
+    }
+}
 
 
