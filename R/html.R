@@ -1,5 +1,3 @@
-#' A vector of elements that need an explicit endin tag
-#' @name container_tags
 container_tags <- c("a", "article", "aside", "b", "body", "canvas", "dd", "div", "dl", "dt", "em", "fieldset",
                     "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "head", "header", "hgroup", "html",
                     "i", "iframe", "label", "li", "nav", "ol", "option", "pre", "section", "script", "span",

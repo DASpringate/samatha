@@ -13,7 +13,8 @@ Depends:
     knitr,
     markdown,
     RJSONIO,
-    XML
+    XML,
+    tools
 Collate:
     'elements.R'
     'html.R'

@@ -1,10 +1,3 @@
-#' Samatha pages
-#' Functions for wrapping html in doctype boilerplate
-#' 
-
-#' html doctype header representation
-#' @name doctype
-#' @description List of document type declarations for html and xml
 doctypes <- list(html4 = list(paste("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\"",
                               "\"http://www.w3.org/TR/html4/strict.dtd\">"), 
                              list(tag = "html", opts = list())),
