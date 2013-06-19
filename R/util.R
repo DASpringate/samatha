@@ -22,7 +22,7 @@ extract.tags <- function(md.file){
 #' @return character sting of the title of the post
 #' @seealso extract.tags
 extract.title <- function(md.file){
-    f <- readChar(md.file, n = file.info(md.file)$size)
+    f <- readChar(md.file, nchars = file.info(md.file)$size)
     str_match(f, "(\n)([^\n.]+)(\n={3,})")[3]
 }
 

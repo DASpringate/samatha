@@ -40,7 +40,7 @@ collate.tags <- function(posts){
 #' writes a json file of post tags and links to their associated posts
 #' Seperate from collate.tags to maintain functional style
 #' @name write.tags.to.file
-#' @param path to the Samatha site
+#' @param site Path to the Samatha site
 #' @return NULL writes to file as a side effect
 #' @seealso collate.tags
 write.tags.to.file <- function(site){
@@ -50,7 +50,7 @@ write.tags.to.file <- function(site){
 
 #' Generates page content for a tag, to be rendered with a layout
 #' @name build.tagpage
-#' @param list element with associated vectors of titles and urls for associated posts
+#' @param tag list element with associated vectors of titles and urls for associated posts
 #' @param tagname name of the tag
 #' @seealso collate.tags
 #' @return character vector of length 1 containing html for an unordered list of links to posts associated with the tag
@@ -67,7 +67,7 @@ build.tagpage <- function(tag, tagname){
 #' @return list of tags and associated vectors of posts and links, or NULL if file doesn't exist
 import.tagfile <- function(tagfile){
     if(file.exists(tagfile)){
-        return(fromJSON(readChar(tagfile, n = file.info(tagfile)$size), simplify = FALSE))
+        return(fromJSON(readChar(tagfile, nchars = file.info(tagfile)$size), simplify = FALSE))
     } else {
         cat(sprintf("No tagfile at %s\n", tagfile))
         return(NULL)

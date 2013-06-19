@@ -6,7 +6,7 @@ Seperate from collate.tags to maintain functional style}
   write.tags.to.file(site)
 }
 \arguments{
-  \item{path}{to the Samatha site}
+  \item{site}{Path to the Samatha site}
 }
 \value{
   NULL writes to file as a side effect

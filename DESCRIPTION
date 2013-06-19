@@ -16,7 +16,6 @@ Depends:
     XML
 Collate:
     'elements.R'
-    'forms.R'
     'html.R'
     'pages.R'
     'engine.R'

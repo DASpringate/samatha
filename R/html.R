@@ -12,12 +12,8 @@ container_tags <- c("a", "article", "aside", "b", "body", "canvas", "dd", "div",
 #' @param tag character The name of the html/xml tag to be used
 #' @param \dots  the content of the tag. Eventually coerced into character vector. Can be list or function
 #' @param opts list of key=values for tag attributes
-#' @param {
-#' specials list of shortcuts for setting ID and class attributes.
-#' Should be familiar to css users.
-#' Potentially extendable to to other attributes...
-#' }
-#' @param excape.html.p logical predicate. Should all html be escaped? calls escape.html() on the final character output if TRUE
+#' @param specials list of shortcuts for setting ID and class attributes. Should be familiar to css users. Potentially extendable to to other attributes...
+#' @param escape.html.p logical predicate. Should all html be escaped? calls escape.html() on the final character output if TRUE
 #' @param singleton logical predicate. If TRUE the tag is of form <tag body>
 #' @return a character vector of length 1
 #' @examples {

@@ -4,6 +4,13 @@
 \usage{
   link.to(url, ..., opts = list())
 }
+\arguments{
+  \item{url}{character the url the link points to}
+
+  \item{\dots}{the content of the tag}
+
+  \item{opts}{list of optional tag attributes}
+}
 \value{
   character
 }

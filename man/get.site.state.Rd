@@ -1,5 +1,5 @@
-\name{get.site.name}
-\alias{get.site.name}
+\name{get.site.state}
+\alias{get.site.state}
 \title{Gets modification dates for all source and dest files in a site}
 \usage{
   get.site.state(site)

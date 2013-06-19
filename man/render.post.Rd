@@ -16,13 +16,13 @@
   figures (particularly R charts etc.) are to be kept}
 }
 \value{
-  {Object of class Samatha.Page An object of class
-  "Samatha.Page is a list containing at least the following
+  Object of class Samatha.Page An object of class
+  Samatha.Page is a list containing at least the following
   components: html A character string of the html of a page
   layout The name of the layout file used to render the
   html file Name of the file to write the html to title
   title for the page sourcefile path to the source R or Rmd
-  file for the page }
+  file for the page
 }
 \description{
   Render an .Rmd file into a page according to its layout

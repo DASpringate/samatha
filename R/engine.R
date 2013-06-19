@@ -7,15 +7,14 @@
 #' @export
 #' @param site Absolute path to your Samatha site
 #' @param pagename name of the R source file for the page to be rendered as html
-#' @return {Object of class Samatha.Page
-#' An object of class "Samatha.Page is a list containing at least the following components:
+#' @return Object of class Samatha.Page
+#' An object of class Samatha.Page is a list containing at least the following components:
 #' html         A character string of the html of a page
 #' layout       The name of the layout file used to render the html
 #' file         Name of the file to write the html to
 #' title        title for the page
 #' sourcefile   path to the source R or Rmd file for the page
-#' }
-#' examples \dontrun{
+#' @examples \dontrun{
 #' render.post(site, "index.R", layout = "default")
 #' }
 render.page <- function(site, pagename){
@@ -43,14 +42,14 @@ render.page <- function(site, pagename){
 #' @param postname Name of the Rmd source for the post
 #' @param layout The name of the layout file used to render the post
 #' @param fig.path name of the directory in the site where figures (particularly R charts etc.) are to be kept
-#' @return {Object of class Samatha.Page
-#' An object of class "Samatha.Page is a list containing at least the following components:
+#' @return Object of class Samatha.Page
+#' An object of class Samatha.Page is a list containing at least the following components:
 #' html         A character string of the html of a page
 #' layout       The name of the layout file used to render the html
 #' file         Name of the file to write the html to
 #' title        title for the page
 #' sourcefile   path to the source R or Rmd file for the page
-#' }
+#' 
 #' @examples \dontrun{
 #' render.post(site, "My_first_post.Rmd", layout = "default", fig.path = "img")
 #' } 
@@ -104,15 +103,15 @@ write.html <- function(samatha.page){
 
 
 #' Gets modification times for a vector of files
-#' @name file.status
-#' @param character vector of file paths
+#' @name file.states
+#' @param files character vector of file paths
 #' @return a named vector of modification times with file paths as namess
 file.states <- function(files){
     setNames(file.info(files)$mtime, files)
 }
 
 #' Gets modification dates for all source and dest files in a site
-#' @name get.site.name
+#' @name get.site.state
 #' @param site Absolute path to your Samatha site
 #' @return {
 #' a list of file states (as returned by file.states()) for the different elements of the site:

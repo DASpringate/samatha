@@ -15,11 +15,11 @@
 
   \item{opts}{list of key=values for tag attributes}
 
-  \item{{}{specials list of shortcuts for setting ID and
+  \item{specials}{list of shortcuts for setting ID and
   class attributes. Should be familiar to css users.
-  Potentially extendable to to other attributes... }}
+  Potentially extendable to to other attributes...}
 
-  \item{excape.html.p}{logical predicate. Should all html
+  \item{escape.html.p}{logical predicate. Should all html
   be escaped? calls escape.html() on the final character
   output if TRUE}
 

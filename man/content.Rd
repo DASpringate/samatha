@@ -4,6 +4,10 @@
 \usage{
   content(...)
 }
+\arguments{
+  \item{\dots}{list or character vector of items to be
+  concatenated}
+}
 \value{
   character
 }

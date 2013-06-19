@@ -5,8 +5,8 @@
   build.tagpage(tag, tagname)
 }
 \arguments{
-  \item{list}{element with associated vectors of titles and
-  urls for associated posts}
+  \item{tag}{list element with associated vectors of titles
+  and urls for associated posts}
 
   \item{tagname}{name of the tag}
 }

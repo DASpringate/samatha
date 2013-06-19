@@ -5,6 +5,10 @@ javascript tag representation}
 \usage{
   javascript.tag(script)
 }
+\arguments{
+  \item{script}{character string representation of
+  javascript code}
+}
 \value{
   character
 }
