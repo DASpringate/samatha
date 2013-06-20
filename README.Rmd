@@ -70,7 +70,7 @@ load_all(".") # In the correct directory!
 _I'm still working on it!_
 
 * [Wiki](https://github.com/DASpringate/samatha/wiki/_pages)
-* [API docs](http://daspringate/samatha/man/index.html) These have been auto-generated from the .Rd documentation using Samatha
+* [API docs](http://daspringate.github.io/samatha/man/index.html) These have been auto-generated from the .Rd documentation using Samatha
 
 ## Glaring ommisions (To be fixed very soon):
 
