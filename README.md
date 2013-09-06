@@ -55,6 +55,8 @@ Sites are created with the following structure:
 
 My [personal blog](http://daspringate.github.io) was built using Samatha, [twitter bootstrap](http://twitter.github.io/bootstrap/) and [Github pages](http://pages.github.com/). I used the [Readable](http://bootswatch.com/readable/) theme. See [here](https://github.com/DASpringate/blog) for the file structure of a Samatha site.
 
+This [gist](https://gist.github.com/DASpringate/64643000) Gives code to quickly setting up an example site.
+
 ## Install
 
 You should be able to install the current version of Samatha with devtools:
@@ -77,6 +79,7 @@ _I'm still working on it!_
 
 * [Wiki](https://github.com/DASpringate/samatha/wiki/_pages)
 * [API docs](http://daspringate.github.io/samatha/man/index.html) These have been auto-generated from the .Rd documentation using Samatha
+* [Quick-start gist](https://gist.github.com/DASpringate/64643000)
 
 ## Glaring ommisions (To be fixed very soon):
 
