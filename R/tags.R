@@ -45,6 +45,7 @@ collate.tags <- function(posts){
 #' @seealso collate.tags
 write.tags.to.file <- function(site){
     tags <- collate.tags(file.path(site, "template/posts"))
+    dir.create(file.path(site, "template/resources/json"), showWarnings = FALSE)
     cat(toJSON(tags), file = file.path(site, "template/resources/json/tags.json"))
 }
 

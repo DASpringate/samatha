@@ -1,0 +1,17 @@
+% R setup Samatha
+
+First post
+==========
+
+Here is a summary of the `cars` dataset:
+
+```{r}
+summary(cars)
+```
+
+And here is a graph:
+
+```{r fig.width=7, fig.height=6}
+plot(cars)
+```
+

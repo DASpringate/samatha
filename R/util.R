@@ -55,7 +55,7 @@ html.postlist <- function(site){
     postdates <- postdates[order(postdates, decreasing = TRUE)]
     posttitles <- lapply(postlist, function(x) extract.title(file.path(site, "template/posts",x)))
     postpaths <- lapply(postlist, get.postpath)
-    if(!is.null(postlist)){
+    if(!is.null(postlist) && length(postlist)){
         postlinks <- lapply(1:length(postlist),
                             function(x) link.to(url = postpaths[[x]],
                                                 sprintf("%s (%s)", posttitles[[x]], postdates[[x]])))
