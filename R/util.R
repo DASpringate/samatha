@@ -21,10 +21,39 @@ extract.tags <- function(md.file){
 #' @param md.file .md file of a post
 #' @return character sting of the title of the post
 #' @seealso extract.tags
-extract.title <- function(md.file){
-    f <- readChar(md.file, nchars = file.info(md.file)$size)
-    str_match(f, "(\n)([^\n.]+)(\n={3,})")[3]
+extract.title <- function(md.file, header.type="pound"){
+    f <- readLines(md.file)
+    
+    poundExpr <- "^#(?: )(?:.+)"
+    underExpr <- "^={3,}"
+    
+    switch(header.type,
+           pound = poundHeader(f, poundExpr),
+           under = underHeader(f, underExpr))
+    
 }
+
+poundHeader <- function(f, useExpr){
+  hasHeader <- grepl(useExpr, f)
+  if (sum(hasHeader) >= 1){
+    useHead <- f[which(hasHeader)[1]]
+    outTitle <- substr(useHead, 3, nchar(useHead))
+  } else {
+    stop("title not found!", call.=FALSE)
+  }
+  return(outTitle)
+}
+
+underHeader <- function(f, useExpr){
+  hasHeader <- grepl(useExpr, f)
+  if (sum(hasHeader) >= 1){
+    outHead <- f[which(hasHeader)[1]-1]
+  } else {
+    stop("title not found!", call.=FALSE)
+  }
+  return(outTitle)
+}
+
 
 #' returns the path to the post in the site
 #' @name get.postpath
