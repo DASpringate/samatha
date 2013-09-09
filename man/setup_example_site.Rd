@@ -2,7 +2,8 @@
 \alias{setup_example_site}
 \title{Sets up an example site}
 \usage{
-  setup_example_site(site, resources = "resources")
+  setup_example_site(site,
+    resources = system.file("resources", package = "samatha"))
 }
 \arguments{
   \item{site}{path to the directory you want to set up}

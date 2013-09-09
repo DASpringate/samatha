@@ -84,5 +84,17 @@ include.textfile <- function(text.file){
 }
 
 
-
-
+#' runs the python server for viewing
+#' 
+#' @param site the top level location of the blog directory
+#' @export
+run.server <- function(site){
+  fullSite <- file.path(site, basename(site))
+  serverFile <- system.file("server/server.py", package="samatha")
+  
+  pyStr <- c('import os',
+             paste0('os.chdir("', fullSite, '")'),
+             paste0('execfile("', serverFile, '")'))
+  
+  system("python", wait=F, input=pyStr)
+}
