@@ -47,7 +47,7 @@ poundHeader <- function(f, useExpr){
 underHeader <- function(f, useExpr){
   hasHeader <- grepl(useExpr, f)
   if (sum(hasHeader) >= 1){
-    outHead <- f[which(hasHeader)[1]-1]
+    outTitle <- f[which(hasHeader)[1]-1]
   } else {
     stop("title not found!", call.=FALSE)
   }
