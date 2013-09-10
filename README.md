@@ -65,12 +65,25 @@ You should be able to install the current version of Samatha with devtools:
 ```r
 # check install_github()
 require(devtools)
-load_all(".")  # In the correct directory!
+install_github("samatha", "DASpringate")
 ```
 
+
+## Simple Startup
+
+
+```r
+library(samatha)
+site <- "/dir1/dir2/dirSite"
+skeleton(site)
+setup_example_site(site)
+
+samatha(site, rss = FALSE, initial = TRUE)
+samatha(site, rss = FALSE, initial = TRUE)
+
+run.server(site)  # open browser to localhost:8000 to see the site
 ```
-## Loading samatha
-```
+
 
 
 ## Documentation

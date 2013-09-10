@@ -35,7 +35,7 @@ skeleton <- function(site){
 #' @param site path to the directory you want to set up
 #' @param resources path to the resources directory in the Samatha package
 #' @export
-setup_example_site <- function(site, resources = "resources"){
+setup_example_site <- function(site, resources = system.file("resources", package="samatha")){
     # copy over twitter bootstrap files
     csslist <- list.files(file.path(resources, "css"), full.names = TRUE)
     file.copy(csslist, file.path(site, basename(site), "css"), overwrite = TRUE)
