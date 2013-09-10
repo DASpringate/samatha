@@ -22,6 +22,10 @@ extract.tags <- function(md.file){
 #' @return character sting of the title of the post
 #' @seealso extract.tags
 extract.title <- function(md.file){
+  
+    # note that we rely on a *global* variable header.type that is set from the config.R file here
+    # I know it is not best practices, but it works for now, without having the user having to go in
+    # and modify the source code before installing.
     f <- readLines(md.file)
     
     poundExpr <- "^#(?: )(?:.+)"
