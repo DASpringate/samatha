@@ -2,5 +2,4 @@
 ^\.Rproj\.user$
 ^testsite*
 README.Rmd
-server.py
 buildsite.R
