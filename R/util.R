@@ -90,7 +90,7 @@ include.textfile <- function(text.file){
 #' @export
 run.server <- function(site){
   fullSite <- file.path(site, basename(site))
-  serverFile <- system.file("server/server.py", package="samatha")
+  serverFile <- system.file("server/server", package="samatha")
   
   pyStr <- c('import os',
              paste0('os.chdir("', fullSite, '")'),
