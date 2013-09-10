@@ -21,7 +21,7 @@ extract.tags <- function(md.file){
 #' @param md.file .md file of a post
 #' @return character sting of the title of the post
 #' @seealso extract.tags
-extract.title <- function(md.file, header.type="pound"){
+extract.title <- function(md.file){
     f <- readLines(md.file)
     
     poundExpr <- "^#(?: )(?:.+)"
@@ -82,7 +82,7 @@ html.postlist <- function(site, header.type){
                               format = "%Y_%m_%d")
     postlist <- postlist[order(postdates, decreasing = TRUE)]
     postdates <- postdates[order(postdates, decreasing = TRUE)]
-    posttitles <- lapply(postlist, function(x) extract.title(file.path(site, "template/posts",x), header.type))
+    posttitles <- lapply(postlist, function(x) extract.title(file.path(site, "template/posts",x)))
     postpaths <- lapply(postlist, get.postpath)
     if(!is.null(postlist) && length(postlist)){
         postlinks <- lapply(1:length(postlist),

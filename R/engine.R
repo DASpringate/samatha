@@ -53,7 +53,7 @@ render.page <- function(site, pagename){
 #' @examples \dontrun{
 #' render.post(site, "My_first_post.Rmd", layout = "default", fig.path = "img")
 #' } 
-render.post <- function(site, postname, layout, fig.path, header.type){
+render.post <- function(site, postname, layout, fig.path){
     postnames <- str_match(postname, pattern = "([[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2})_(.*)")
     md.file <- file.path(site, "template/posts",str_replace(postnames[1], "\\.Rmd", "\\.md"))
     if(length(postnames) != 3 | ! str_detect(postnames[3], "\\.Rmd")){
@@ -78,7 +78,7 @@ render.post <- function(site, postname, layout, fig.path, header.type){
                                layout = layout,
                                file = file.path(month.dir, 
                                                 str_replace(postnames[3], "\\.Rmd", "\\.html")),
-                               title = extract.title(md.file, header.type),
+                               title = extract.title(md.file),
                                sourcefile = postname,
                                tags = extract.tags(md.file)),
                           class = "Samatha.Page")
@@ -225,8 +225,7 @@ update.site <- function(site, site.state, post.layout, tag.layout, fig.path){
         for(post in names(site.state$source_posts)) {
             write.html(render.post(site, basename(post), 
                                    layout = post.layout, 
-                                   fig.path = fig.path,
-                                   header.type = header.type))
+                                   fig.path = fig.path))
         }
         pages <- list.files(file.path(site, "template/pages"), recursive = TRUE)
         for(page in pages[str_detect(pages, "R$")]){
@@ -249,8 +248,7 @@ update.site <- function(site, site.state, post.layout, tag.layout, fig.path){
         for(post in posts.tobuild) {
             write.html(render.post(site, basename(post), 
                                    layout = post.layout, 
-                                   fig.path = figure.path,
-                                   header.type = header.type))
+                                   fig.path = figure.path))
         }
         cat(paste0("Re/built posts:\n",paste(posts.tobuild, collapse = ", ")), "\n")
         return(TRUE)
@@ -272,7 +270,7 @@ update.site <- function(site, site.state, post.layout, tag.layout, fig.path){
 #' @param tag.layout The name of the layout file used to render subject tags
 #' @param fig.path name of the directory in the site where figures (particularly R charts etc.) are to be kept
 #' @return logical TRUE if site has been updated, FALSE otherwise
-refresh.site <- function(site, site.state, post.layout, tag.layout, fig.path, header.type){
+refresh.site <- function(site, site.state, post.layout, tag.layout, fig.path){
     ## combine into a single function? --
     orphan.pages.p <- function(){
         # html pages with no R source
@@ -328,8 +326,7 @@ refresh.site <- function(site, site.state, post.layout, tag.layout, fig.path, he
     for(post in names(site.state$source_posts)) {
         write.html(render.post(site, basename(post), 
                                layout = post.layout, 
-                               fig.path = fig.path,
-                               header.type = header.type))
+                               fig.path = fig.path))
     }
     
     pages <- list.files(file.path(site, "template/pages"), recursive = TRUE)
@@ -346,8 +343,7 @@ refresh.site <- function(site, site.state, post.layout, tag.layout, fig.path, he
         for(post in posts.tobuild) {
             write.html(render.post(site, basename(post), 
                                    layout = post.layout, 
-                                   fig.path = figure.path,
-                                   header.type = header.type))
+                                   fig.path = figure.path))
         }
         cat(paste0("Re/built posts:\n",paste(posts.tobuild, collapse = ", ")), "\n")
     }
@@ -367,10 +363,10 @@ samatha <- function(site, rss = TRUE, initial = FALSE){
         site.state <- get.site.state(site)
         site.updated <- refresh.site(site = site, site.state = site.state, 
                                     post.layout = post.layout, tag.layout = tag.layout, 
-                                    fig.path = figure.path, header.type=header.type)
+                                    fig.path = figure.path)
         site.updated <- refresh.site(site = site, site.state = site.state, 
                                      post.layout = post.layout, tag.layout = tag.layout, 
-                                     fig.path = figure.path, header.type=header.type)
+                                     fig.path = figure.path)
         write.tags.to.file(site)
         render.tagfiles(site, tag.layout = tag.layout)
         if(rss){
@@ -383,7 +379,7 @@ samatha <- function(site, rss = TRUE, initial = FALSE){
             site.state <- get.site.state(site)
             site.updated <- update.site(site = site, site.state = site.state, 
                                         post.layout = post.layout, tag.layout = tag.layout, 
-                                        fig.path = figure.path, header.type=header.type)
+                                        fig.path = figure.path)
             if(site.updated){
                 write.tags.to.file(site)
                 render.tagfiles(site, tag.layout = tag.layout)
