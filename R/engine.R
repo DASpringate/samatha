@@ -225,7 +225,8 @@ update.site <- function(site, site.state, post.layout, tag.layout, fig.path){
         for(post in names(site.state$source_posts)) {
             write.html(render.post(site, basename(post), 
                                    layout = post.layout, 
-                                   fig.path = fig.path))
+                                   fig.path = fig.path,
+                                   header.type = header.type))
         }
         pages <- list.files(file.path(site, "template/pages"), recursive = TRUE)
         for(page in pages[str_detect(pages, "R$")]){
@@ -248,7 +249,8 @@ update.site <- function(site, site.state, post.layout, tag.layout, fig.path){
         for(post in posts.tobuild) {
             write.html(render.post(site, basename(post), 
                                    layout = post.layout, 
-                                   fig.path = figure.path))
+                                   fig.path = figure.path,
+                                   header.type = header.type))
         }
         cat(paste0("Re/built posts:\n",paste(posts.tobuild, collapse = ", ")), "\n")
         return(TRUE)
@@ -326,7 +328,8 @@ refresh.site <- function(site, site.state, post.layout, tag.layout, fig.path, he
     for(post in names(site.state$source_posts)) {
         write.html(render.post(site, basename(post), 
                                layout = post.layout, 
-                               fig.path = fig.path))
+                               fig.path = fig.path,
+                               header.type = header.type))
     }
     
     pages <- list.files(file.path(site, "template/pages"), recursive = TRUE)
@@ -343,7 +346,8 @@ refresh.site <- function(site, site.state, post.layout, tag.layout, fig.path, he
         for(post in posts.tobuild) {
             write.html(render.post(site, basename(post), 
                                    layout = post.layout, 
-                                   fig.path = figure.path))
+                                   fig.path = figure.path,
+                                   header.type = header.type))
         }
         cat(paste0("Re/built posts:\n",paste(posts.tobuild, collapse = ", ")), "\n")
     }
@@ -363,10 +367,10 @@ samatha <- function(site, rss = TRUE, initial = FALSE){
         site.state <- get.site.state(site)
         site.updated <- refresh.site(site = site, site.state = site.state, 
                                     post.layout = post.layout, tag.layout = tag.layout, 
-                                    fig.path = figure.path)
+                                    fig.path = figure.path, header.type=header.type)
         site.updated <- refresh.site(site = site, site.state = site.state, 
                                      post.layout = post.layout, tag.layout = tag.layout, 
-                                     fig.path = figure.path)
+                                     fig.path = figure.path, header.type=header.type)
         write.tags.to.file(site)
         render.tagfiles(site, tag.layout = tag.layout)
         if(rss){
@@ -379,7 +383,7 @@ samatha <- function(site, rss = TRUE, initial = FALSE){
             site.state <- get.site.state(site)
             site.updated <- update.site(site = site, site.state = site.state, 
                                         post.layout = post.layout, tag.layout = tag.layout, 
-                                        fig.path = figure.path)
+                                        fig.path = figure.path, header.type=header.type)
             if(site.updated){
                 write.tags.to.file(site)
                 render.tagfiles(site, tag.layout = tag.layout)
