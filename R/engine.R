@@ -53,7 +53,7 @@ render.page <- function(site, pagename){
 #' @examples \dontrun{
 #' render.post(site, "My_first_post.Rmd", layout = "default", fig.path = "img")
 #' } 
-render.post <- function(site, postname, layout, fig.path){
+render.post <- function(site, postname, layout, fig.path, header.type){
     postnames <- str_match(postname, pattern = "([[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2})_(.*)")
     md.file <- file.path(site, "template/posts",str_replace(postnames[1], "\\.Rmd", "\\.md"))
     if(length(postnames) != 3 | ! str_detect(postnames[3], "\\.Rmd")){
@@ -78,7 +78,7 @@ render.post <- function(site, postname, layout, fig.path){
                                layout = layout,
                                file = file.path(month.dir, 
                                                 str_replace(postnames[3], "\\.Rmd", "\\.html")),
-                               title = extract.title(md.file),
+                               title = extract.title(md.file, header.type),
                                sourcefile = postname,
                                tags = extract.tags(md.file)),
                           class = "Samatha.Page")
@@ -270,7 +270,7 @@ update.site <- function(site, site.state, post.layout, tag.layout, fig.path){
 #' @param tag.layout The name of the layout file used to render subject tags
 #' @param fig.path name of the directory in the site where figures (particularly R charts etc.) are to be kept
 #' @return logical TRUE if site has been updated, FALSE otherwise
-refresh.site <- function(site, site.state, post.layout, tag.layout, fig.path){
+refresh.site <- function(site, site.state, post.layout, tag.layout, fig.path, header.type){
     ## combine into a single function? --
     orphan.pages.p <- function(){
         # html pages with no R source
