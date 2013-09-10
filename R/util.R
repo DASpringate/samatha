@@ -75,14 +75,14 @@ get.postpath <- function(post){
 #' @param site absolute path to the Samatha site
 #' @return character vector representing an unordered html list of links to blog posts in descending date order 
 #' @export
-html.postlist <- function(site){
+html.postlist <- function(site, header.type){
     postlist <- list.files(file.path(site, "template/posts"))
     postlist <- postlist[str_detect(postlist, "\\.md")]
     postdates <- as.Date(str_extract(postlist, "[[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2}"), 
                               format = "%Y_%m_%d")
     postlist <- postlist[order(postdates, decreasing = TRUE)]
     postdates <- postdates[order(postdates, decreasing = TRUE)]
-    posttitles <- lapply(postlist, function(x) extract.title(file.path(site, "template/posts",x)))
+    posttitles <- lapply(postlist, function(x) extract.title(file.path(site, "template/posts",x), header.type))
     postpaths <- lapply(postlist, get.postpath)
     if(!is.null(postlist) && length(postlist)){
         postlinks <- lapply(1:length(postlist),
