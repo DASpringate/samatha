@@ -22,9 +22,42 @@ extract.tags <- function(md.file){
 #' @return character sting of the title of the post
 #' @seealso extract.tags
 extract.title <- function(md.file){
-    f <- readChar(md.file, nchars = file.info(md.file)$size)
-    str_match(f, "(\n)([^\n.]+)(\n={3,})")[3]
+  
+    # note that we rely on a *global* variable header.type that is set from the config.R file here
+    # I know it is not best practices, but it works for now, without having the user having to go in
+    # and modify the source code before installing.
+    f <- readLines(md.file)
+    
+    poundExpr <- "^#(?: )(?:.+)"
+    underExpr <- "^={3,}"
+    
+    switch(header.type,
+           pound = poundHeader(f, poundExpr),
+           under = underHeader(f, underExpr))
+    
 }
+
+poundHeader <- function(f, useExpr){
+  hasHeader <- grepl(useExpr, f)
+  if (sum(hasHeader) >= 1){
+    useHead <- f[which(hasHeader)[1]]
+    outTitle <- substr(useHead, 3, nchar(useHead))
+  } else {
+    stop("title not found!", call.=FALSE)
+  }
+  return(outTitle)
+}
+
+underHeader <- function(f, useExpr){
+  hasHeader <- grepl(useExpr, f)
+  if (sum(hasHeader) >= 1){
+    outTitle <- f[which(hasHeader)[1]-1]
+  } else {
+    stop("title not found!", call.=FALSE)
+  }
+  return(outTitle)
+}
+
 
 #' returns the path to the post in the site
 #' @name get.postpath
@@ -46,7 +79,7 @@ get.postpath <- function(post){
 #' @param site absolute path to the Samatha site
 #' @return character vector representing an unordered html list of links to blog posts in descending date order 
 #' @export
-html.postlist <- function(site){
+html.postlist <- function(site, header.type){
     postlist <- list.files(file.path(site, "template/posts"))
     postlist <- postlist[str_detect(postlist, "\\.md")]
     postdates <- as.Date(str_extract(postlist, "[[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2}"), 

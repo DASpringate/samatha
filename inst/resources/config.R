@@ -15,3 +15,4 @@ tag.layout = "default_template.R"
 
 post.layout = "default_template.R"
 figure.path = "img"
+header.type = "under"
