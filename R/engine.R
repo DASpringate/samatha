@@ -71,16 +71,12 @@ render.post <- function(site, postname, layout, fig.path){
       
       if (difftime(md.mod, rmd.mod) < 0){
         knit.post(rmd.file, md.file, fullFig.path)
-        message("Knitted due to newer Rmd!")
       }
       
     } else {
       knit.post(rmd.file, md.file, fullFig.path)
-      message("Knitted due to non-existent md!")
     }
-#     opts_chunk$set(fig.path = file.path(site, basename(site), paste0(fig.path, "/")))
-#     knit(input = file.path(site, "template/posts", postnames[1]),
-#          output = md.file)
+
     page <- markdownToHTML(md.file, fragment.only = TRUE)
     page <- paste0(page, m("h6", sprintf("Posted on %s", as.Date(postnames[2], format("%Y_%m_%d")))))
     page <- str_replace_all(page, 
