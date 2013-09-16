@@ -85,6 +85,22 @@ render.post <- function(site, postname, layout, fig.path){
     post.obj
 }
 
+#' knits an Rmd post to md
+#' 
+#' If a blog post involves a lot of heavy computation, it may be useful to be able to knit the Rmd to md first. This should be true whether using \code{samatha} with \code{initial=TRUE} or \code{FALSE}. 
+#' @name knit.post
+#' @param site the samatha site we are working on
+#' @param rmd.file the R markdown file to knit
+#' @param fig.path the figure path used by the samatha site (generally set in \code{config.R})
+#' @return character md file name if successful, empty value otherwise
+knit.post <- function(site, rmd.file, fig.path){
+  opts_chunk$set(fig.path = file.path(site, basename(site), paste0(fig.path, "/")))
+  md.file <- file.path(site, "template/posts", str_replace(rmd.file, "\\.Rmd", "\\.md"))
+  knit(input = file.path(site, "template/posts", rmd.file),
+       output = md.file)
+  md.file
+}
+
 #' Writes the html content of a Samatha.Page object to 
 #' the file specified in the file element. 
 #' @name write.html
