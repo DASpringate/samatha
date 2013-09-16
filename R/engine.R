@@ -55,14 +55,32 @@ render.page <- function(site, pagename){
 #' } 
 render.post <- function(site, postname, layout, fig.path){
     postnames <- str_match(postname, pattern = "([[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2})_(.*)")
-    md.file <- file.path(site, "template/posts",str_replace(postnames[1], "\\.Rmd", "\\.md"))
+    rmd.file <- file.path(site, "template/posts", postnames[1])
+    md.file <- str_replace(rmd.file, "\\.Rmd", "\\.md")
     if(length(postnames) != 3 | ! str_detect(postnames[3], "\\.Rmd")){
         cat(sprintf("Bad post filename: %s", postnames[1]))
         return(FALSE)
-    } 
-    opts_chunk$set(fig.path = file.path(site, basename(site), paste0(fig.path, "/")))
-    knit(input = file.path(site, "template/posts", postnames[1]),
-         output = md.file)
+    }
+    
+    fullFig.path <- file.path(site, basename(site), paste0(fig.path, "/"))
+    
+    # logic to only knit if necessary. i.e. no markdown file, or the Rmd has been updated compared to the md.
+    if (file.exists(md.file)){
+      md.mod <- file.info(md.file)["mtime"][1,1]
+      rmd.mod <- file.info(rmd.file)["mtime"][1,1]
+      
+      if (difftime(md.mod, rmd.mod) < 0){
+        knit.post(rmd.file, md.file, fullFig.path)
+        message("Knitted due to newer Rmd!")
+      }
+      
+    } else {
+      knit.post(rmd.file, md.file, fullFig.path)
+      message("Knitted due to non-existent md!")
+    }
+#     opts_chunk$set(fig.path = file.path(site, basename(site), paste0(fig.path, "/")))
+#     knit(input = file.path(site, "template/posts", postnames[1]),
+#          output = md.file)
     page <- markdownToHTML(md.file, fragment.only = TRUE)
     page <- paste0(page, m("h6", sprintf("Posted on %s", as.Date(postnames[2], format("%Y_%m_%d")))))
     page <- str_replace_all(page, 
@@ -89,14 +107,14 @@ render.post <- function(site, postname, layout, fig.path){
 #' 
 #' If a blog post involves a lot of heavy computation, it may be useful to be able to knit the Rmd to md first. This should be true whether using \code{samatha} with \code{initial=TRUE} or \code{FALSE}. 
 #' @name knit.post
-#' @param site the samatha site we are working on
-#' @param rmd.file the R markdown file to knit
-#' @param fig.path the figure path used by the samatha site (generally set in \code{config.R})
+#' @param rmd.file the full path to the R markdown file to knit
+#' @param md.file the full path to the markdown file output
+#' @param fig.path the absolute figure path used by the samatha site
 #' @return character md file name if successful, empty value otherwise
-knit.post <- function(site, rmd.file, fig.path){
-  opts_chunk$set(fig.path = file.path(site, basename(site), paste0(fig.path, "/")))
-  md.file <- file.path(site, "template/posts", str_replace(rmd.file, "\\.Rmd", "\\.md"))
-  knit(input = file.path(site, "template/posts", rmd.file),
+#' @export
+knit.post <- function(rmd.file, md.file, fig.path){
+  opts_chunk$set(fig.path = fig.path)
+  knit(input =  rmd.file,
        output = md.file)
   md.file
 }

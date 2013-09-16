@@ -2,7 +2,7 @@
 \alias{html.postlist}
 \title{builds a list of links to all blog posts. List is in decreasing order of post date}
 \usage{
-  html.postlist(site)
+  html.postlist(site, header.type)
 }
 \arguments{
   \item{site}{absolute path to the Samatha site}
