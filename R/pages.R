@@ -23,7 +23,7 @@ doctypes <- list(html4 = list(paste("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.
 #' @export
 #' @examples html_head("My first page")
 html_head <- function(title, ..., opts = list()){
-    m("head", ..., opts = c(list(title = title), opts))
+    m("head", m("title", title), ..., opts = opts)
 }
 
 #' Wraps input in body tags
