@@ -84,10 +84,10 @@ render.rss <- function(site, domain, rss.title, rss.description, rss.categories)
 #' @return NULL writes to file as a side effect
 #' @seealso rssdoc render.rss
 rss.category <- function(site, domain, categories){
-    main.rss <- xmlTreeParse(file.path(site, basename(site), "rss.xml"))
+    main.rss <- xmlTreeParse(file.path(site, basename(site), "rss.xml"), useInternalNodes=TRUE)
     for(category in categories){
         message(sprintf("Building %s category feed...", category))
-        items <- getNodeSet(rss, sprintf("//item[category='%s']", category))
+        items <- getNodeSet(main.rss, sprintf("//item[category='%s']", category))
         rss.out <- rssdoc(title = sprintf("%s :: %s", rss.title, category), link = domain,
                           description = sprintf("%s :: %s", rss.description, category),
                           rssitems = lapply(items, saveXML, prefix = NULL), categories = category)

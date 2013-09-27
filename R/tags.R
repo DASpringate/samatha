@@ -86,7 +86,8 @@ render.tagfiles <- function(site, tag.layout){
     taglist <- import.tagfile(tagfile)
     if(!is.null(taglist)){
         for(tag in 1:length(taglist)){
-            page <- build.tagpage(taglist[[tag]], names(taglist)[tag])
+            page <- list(content=build.tagpage(taglist[[tag]], names(taglist)[tag]),
+                         title="Tags")
             cat(source(file.path(site, "template/layouts", tag.layout), local = TRUE)$value, 
                 file = file.path(site, 
                                  basename(site), "tags",

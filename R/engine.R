@@ -1,3 +1,18 @@
+#' Contstuct a page from the individual elements
+#' 
+#' @name make.samatha.page
+#' @param content the actual contents of the page
+#' @param title the title of the page, used if your template uses it
+#' @param layout which layout file should be used
+#' @export
+#' @return Object of class Samatha.Page
+make.samatha.page <- function(content, title, layout){
+  page.obj <- structure(list(content=content,
+                 title=title,
+                 layout=layout),
+            class="Samatha.Page")
+}
+
 #' Render a page using the Samatha html dsl
 #'  pages are stored in site/template/pages
 #'
@@ -19,17 +34,12 @@
 #' }
 render.page <- function(site, pagename){
     source(file.path(site, "template/pages", pagename), local = TRUE)
-    page.obj <- structure(list(html = source(file.path(site, "template/layouts", layout), local = TRUE)$value,
-                               content = page,
-                               layout = layout,
-                               file = file.path(site, 
-                                                basename(site), 
-                                                str_replace(pagename, "\\.R", "\\.html")),
-                               title = title,
-                               sourcefile = pagename,
-                               tags = ""),
-                          class = "Samatha.Page")
-    page.obj
+    page$html <- source(file.path(site, "template/layouts", page$layout), local=TRUE)$value
+    page$file <- file.path(site, basename(site), str_replace(pagename, "\\.R", "\\.html"))
+    page$sourcefile <- pagename
+    page$tags <- ""
+    
+    page
 } 
 
 #' Render a post from an R markdown file
@@ -77,9 +87,9 @@ render.post <- function(site, postname, layout, fig.path){
       knit.post(rmd.file, md.file, fullFig.path)
     }
 
-    page <- markdownToHTML(md.file, fragment.only = TRUE)
-    page <- paste0(page, m("h6", sprintf("Posted on %s", as.Date(postnames[2], format("%Y_%m_%d")))))
-    page <- str_replace_all(page, 
+    page.cont <- markdownToHTML(md.file, fragment.only = TRUE)
+    page.cont <- paste0(page.cont, m("h6", sprintf("Posted on %s", as.Date(postnames[2], format("%Y_%m_%d")))))
+    page.cont <- str_replace_all(page.cont, 
                             paste0("img src=\"",file.path(site, basename(site), fig.path)), 
                             paste0("img src=\"/", fig.path))
     month.dir <- file.path(site, basename(site), "posts", 
@@ -87,12 +97,14 @@ render.post <- function(site, postname, layout, fig.path){
                                                    "[[:digit:]]{4}_[[:digit:]]{2}"), 
                                        "_", "/"))
     dir.create(month.dir, showWarnings = FALSE, recursive = TRUE)
+    
+    page <- list(content=page.cont, title=extract.title(md.file))
     post.obj <- structure(list(html = source(file.path(site, "template/layouts", layout), local = TRUE)$value,
-                               content = page,
+                               content = page$content,
                                layout = layout,
                                file = file.path(month.dir, 
                                                 str_replace(postnames[3], "\\.Rmd", "\\.html")),
-                               title = extract.title(md.file),
+                               title = page$title,
                                sourcefile = postname,
                                tags = extract.tags(md.file)),
                           class = "Samatha.Page")
