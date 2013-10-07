@@ -14,7 +14,9 @@ Depends:
     markdown,
     RJSONIO,
     XML,
-    tools
+    tools,
+    multicore,
+    servr
 Collate:
     'elements.R'
     'html.R'
@@ -25,3 +27,4 @@ Collate:
     'util.R'
     'build_site.R'
     'build_docs.R'
+    'zzz.R'
