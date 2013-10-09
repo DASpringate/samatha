@@ -133,7 +133,9 @@ include.textfile <- function(text.file){
 #' @export
 run.server <- function(site, port=8000){
   fullSite <- file.path(site, basename(site))
-  if (Sys.info()$sysname == "Linux"){
+  sysdata <- Sys.info()
+  
+  if (sysdata["sysname"] == "Linux"){
     serverJob <- parallel:::mcparallel(httd(fullSite, port, FALSE))
     assign("serverJob", serverJob, envir=samatha.data)
   } else {
