@@ -7,7 +7,8 @@ Title: Samatha-package.R
 Description: A package for building static sites and rendering HTML in R
 Suggests:
     roxygen2,
-    testthat
+    testthat,
+    parallel
 Depends:
     stringr,
     knitr,
@@ -15,7 +16,6 @@ Depends:
     RJSONIO,
     XML,
     tools,
-    multicore,
     servr
 Collate:
     'elements.R'

@@ -130,19 +130,21 @@ include.textfile <- function(text.file){
 #' 
 #' @param site the top level location of the blog directory
 #' @importFrom servr httd
-#' @importFrom multicore parallel
 #' @export
 run.server <- function(site, port=8000){
   fullSite <- file.path(site, basename(site))
-  serverJob <- parallel(httd(fullSite, port, FALSE))
-  assign("serverJob", serverJob, envir=samatha.data)
+  if (Sys.info()$sysname == "Linux"){
+    serverJob <- parallel:::mcparallel(httd(fullSite, port, FALSE))
+    assign("serverJob", serverJob, envir=samatha.data)
+  } else {
+    httd(fullSite, port, FALSE)
+  }
 }
 
 #' stops the R server
 #' 
-#' @importFrom multicore kill
 #' @export
 stop.server <- function(){
   serverJob <- get("serverJob", envir=samatha.data)
-  kill(serverJob)
+  parallel:::mckill(serverJob)
 }
