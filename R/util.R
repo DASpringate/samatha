@@ -126,17 +126,23 @@ include.textfile <- function(text.file){
 }
 
 
-#' runs the python server for viewing
+#' runs the R server for viewing site
 #' 
 #' @param site the top level location of the blog directory
+#' @importFrom servr httd
+#' @importFrom multicore parallel
 #' @export
-run.server <- function(site){
+run.server <- function(site, port=8000){
   fullSite <- file.path(site, basename(site))
-  serverFile <- system.file("server/server.py", package="samatha")
-  
-  pyStr <- c('import os',
-             paste0('os.chdir("', fullSite, '")'),
-             paste0('execfile("', serverFile, '")'))
-  
-  system("python", wait=F, input=pyStr)
+  serverJob <- parallel(httd(fullSite, port, FALSE))
+  assign("serverJob", serverJob, envir=samatha.data)
+}
+
+#' stops the R server
+#' 
+#' @importFrom multicore kill
+#' @export
+stop.server <- function(){
+  serverJob <- get("serverJob", envir=samatha.data)
+  kill(serverJob)
 }

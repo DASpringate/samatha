@@ -1,13 +1,13 @@
 \name{run.server}
 \alias{run.server}
-\title{runs the python server for viewing}
+\title{runs the R server for viewing site}
 \usage{
-  run.server(site)
+  run.server(site, port = 8000)
 }
 \arguments{
   \item{site}{the top level location of the blog directory}
 }
 \description{
-  runs the python server for viewing
+  runs the R server for viewing site
 }
 
