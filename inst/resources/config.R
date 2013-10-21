@@ -10,6 +10,7 @@
 ###### tag setup ######
 
 tag.layout = "default_template.R"
+includetags = FALSE
 
 ###### blog posts ######
 

@@ -2,7 +2,8 @@
 \alias{render.post}
 \title{Render a post from an R markdown file}
 \usage{
-  render.post(site, postname, layout, fig.path)
+  render.post(site, postname, layout, fig.path,
+    includetags)
 }
 \arguments{
   \item{site}{Absolute path to your Samatha site}

@@ -9,7 +9,7 @@ if :
  todo - Error testing}
 \usage{
   refresh.site(site, site.state, post.layout, tag.layout,
-    fig.path)
+    fig.path, includetags)
 }
 \arguments{
   \item{site}{Absolute path to your Samatha site}
