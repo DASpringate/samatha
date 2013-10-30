@@ -63,7 +63,7 @@ render.page <- function(site, pagename){
 #' @examples \dontrun{
 #' render.post(site, "My_first_post.Rmd", layout = "default", fig.path = "img")
 #' } 
-render.post <- function(site, postname, layout, fig.path){
+render.post <- function(site, postname, layout, fig.path, includetags){
     postnames <- str_match(postname, pattern = "([[:digit:]]{4}_[[:digit:]]{2}_[[:digit:]]{2})_(.*)")
     rmd.file <- file.path(site, "template/posts", postnames[1])
     md.file <- str_replace(rmd.file, "\\.Rmd", "\\.md")
@@ -88,6 +88,14 @@ render.post <- function(site, postname, layout, fig.path){
     }
 
     page.cont <- markdownToHTML(md.file, fragment.only = TRUE)
+    
+    page.tags <- extract.tags(md.file)
+    tag.linklist <- tag.links(page.tags)
+    if (includetags){
+      tagstring <- paste0("Tagged in: ", paste0(tag.linklist, collapse=", "))
+      page.cont <- paste0(page.cont, m("h5", tagstring))
+    }
+    
     page.cont <- paste0(page.cont, m("h6", sprintf("Posted on %s", as.Date(postnames[2], format("%Y_%m_%d")))))
     page.cont <- str_replace_all(page.cont, 
                             paste0("img src=\"",file.path(site, basename(site), fig.path)), 
@@ -312,7 +320,7 @@ update.site <- function(site, site.state, post.layout, tag.layout, fig.path){
 #' @param tag.layout The name of the layout file used to render subject tags
 #' @param fig.path name of the directory in the site where figures (particularly R charts etc.) are to be kept
 #' @return logical TRUE if site has been updated, FALSE otherwise
-refresh.site <- function(site, site.state, post.layout, tag.layout, fig.path){
+refresh.site <- function(site, site.state, post.layout, tag.layout, fig.path, includetags){
     ## combine into a single function? --
     orphan.pages.p <- function(){
         # html pages with no R source
@@ -368,7 +376,8 @@ refresh.site <- function(site, site.state, post.layout, tag.layout, fig.path){
     for(post in names(site.state$source_posts)) {
         write.html(render.post(site, basename(post), 
                                layout = post.layout, 
-                               fig.path = fig.path))
+                               fig.path = fig.path,
+                               includetags = includetags))
     }
     
     pages <- list.files(file.path(site, "template/pages"), recursive = TRUE)
@@ -385,7 +394,8 @@ refresh.site <- function(site, site.state, post.layout, tag.layout, fig.path){
         for(post in posts.tobuild) {
             write.html(render.post(site, basename(post), 
                                    layout = post.layout, 
-                                   fig.path = figure.path))
+                                   fig.path = figure.path,
+                                   includetags = includetags))
         }
         cat(paste0("Re/built posts:\n",paste(posts.tobuild, collapse = ", ")), "\n")
     }
@@ -405,10 +415,10 @@ samatha <- function(site, rss = TRUE, initial = FALSE){
         site.state <- get.site.state(site)
         site.updated <- refresh.site(site = site, site.state = site.state, 
                                     post.layout = post.layout, tag.layout = tag.layout, 
-                                    fig.path = figure.path)
+                                    fig.path = figure.path, includetags=includetags)
         site.updated <- refresh.site(site = site, site.state = site.state, 
                                      post.layout = post.layout, tag.layout = tag.layout, 
-                                     fig.path = figure.path)
+                                     fig.path = figure.path, includetags=includetags)
         write.tags.to.file(site)
         render.tagfiles(site, tag.layout = tag.layout)
         if(rss){

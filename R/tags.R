@@ -119,3 +119,13 @@ html.taglist <- function(site){
 } 
 
 
+#' create a set of links for tags without counts
+#' 
+#' @param taglist character vector of tags to generate links to
+#' @return a set of fully formatted links to insert into a document
+#' @export
+tag.links <- function(taglist){
+  sapply(1:length(taglist),
+         function(x) link.to(url = file.path("/tags",
+                                             paste0(taglist[x], ".html")), taglist[x]))
+}
