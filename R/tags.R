@@ -84,7 +84,7 @@ import.tagfile <- function(tagfile){
 render.tagfiles <- function(site, tag.layout){
     tagfile <- file.path(site, "template/resources/json/tags.json")
     taglist <- import.tagfile(tagfile)
-    if(!is.null(taglist)){
+    if(length(taglist) != 0){
         for(tag in 1:length(taglist)){
             page <- list(content=build.tagpage(taglist[[tag]], names(taglist)[tag]),
                          title="Tags")
@@ -109,7 +109,7 @@ render.tagfiles <- function(site, tag.layout){
 html.taglist <- function(site){
     tagfile <- file.path(site, "template/resources/json/tags.json")
     taglist <- import.tagfile(tagfile)
-    if(!is.null(taglist)){
+    if(length(taglist) != 0){
         tagslinks <- lapply(1:length(taglist),
                             function(x) link.to(url = file.path("/tags",
                                                                 paste0(names(taglist)[x], ".html")),
