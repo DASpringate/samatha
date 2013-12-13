@@ -243,10 +243,7 @@ update.site <- function(site, site.state, post.layout, tag.layout, fig.path){
                function(x) !sb[x] %in% db || 
                    site.state$source_posts[x] > site.state$dest_posts[which(db == sb[x])])
     }
-    catch_char_zero <- function(x){
-        if(!length(x))x <- ""
-        x
-    }
+    
     
     sp <- catch_char_zero(str_replace(as.character(sapply(names(site.state$source_pages), 
                                           function(x) basename(x))),

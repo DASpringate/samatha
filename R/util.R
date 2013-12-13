@@ -150,3 +150,9 @@ stop.server <- function(){
   serverJob <- get("serverJob", envir=samatha.data)
   parallel:::mckill(serverJob)
 }
+
+#' catch if there is a zero length string
+catch_char_zero <- function(x){
+  if(!length(x))x <- ""
+  x
+}
