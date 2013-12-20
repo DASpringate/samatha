@@ -1,6 +1,5 @@
-layout <- "default_template.R"
-title <- "home"
-
-page <- content(m("h2", "My scribblings:"),
-               html.postlist(site))
+page <- make.samatha.page(content = content(m("h2", "My scribblings:"),
+                                            html.postlist(site)),
+                          title = "home",
+                          layout = "default_template.R")
  

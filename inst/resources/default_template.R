@@ -22,7 +22,7 @@
                m("div.container-fluid",
                  m("div.row-fluid",
                    m("div.span1"),
-                   m("div.span9", page),
+                   m("div.span9", page$content),
                    m("div.span2",
                      m("h3", "Tags"),
                      html.taglist(site),m("h3", "Blogs"),
